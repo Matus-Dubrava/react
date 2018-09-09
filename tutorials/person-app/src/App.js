@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './components/Person/Person';
+import PersonList from './components/PersonList/PersonList';
 
 class App extends Component {
   state = {
     persons: [
-      { name: 'Max', age: 28 },
-      { name: 'Manu', age: 32 },
-      { name: 'Sue', age: 42 }
+      { name: 'Max', age: 28, id: 0 },
+      { name: 'Manu', age: 32, id: 1 },
+      { name: 'Sue', age: 42, id: 2 }
     ],
     showPersons: false
   }
@@ -18,11 +18,20 @@ class App extends Component {
     });
   };
 
-  nameChangedHandler = (event) => {
+  nameChangedHandler = (val, id) => {
     const persons = [...this.state.persons];
-    const manu = {...persons[1]};
-    manu.name = event.target.value;
-    persons[1] = manu;
+    const pers = {...persons.find((pers) => pers.id === id)};
+    const idx = persons.findIndex((pers) => pers.id === id);
+
+    pers.name = val;
+    persons[idx] = pers;
+    this.setState({ persons });
+  };
+
+  deletePersonHandler = (id) => {
+    const persons = [...this.state.persons];
+    const idx = persons.findIndex((pers) => pers.id === id);
+    persons.splice(idx, 1);
     this.setState({ persons });
   };
 
@@ -36,21 +45,13 @@ class App extends Component {
     };
 
     let persons = null;
+
     if (this.state.showPersons) {
       persons = (
-        <div>
-          <Person 
-            name={this.state.persons[0].name} 
-            age={this.state.persons[0].age} />
-          <Person 
-            name={this.state.persons[1].name} 
-            changed={this.nameChangedHandler}
-            age={this.state.persons[1].age} />
-          <Person 
-            name={this.state.persons[2].name} 
-            age={this.state.persons[2].age} />
-        </div>
-      );
+          <PersonList
+            nameChangedHandler={this.nameChangedHandler}
+            deletePersonHandler={this.deletePersonHandler} 
+            persons={this.state.persons} />)
     }
 
     return (
@@ -59,7 +60,7 @@ class App extends Component {
         <p>This is really working</p>
         <button 
           style={btnStyle}
-          onClick={this.togglePersonsHandler.bind(this, 'Maximilian')}>Switch Name</button>
+          onClick={this.togglePersonsHandler}>Toggle Persons</button>
         {persons}
       </div>
     );

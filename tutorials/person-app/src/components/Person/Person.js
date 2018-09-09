@@ -8,13 +8,14 @@ class Person extends Component {
 
 	inputChangeHandler = (event) => {
 		this.setState({ inputValue: event.target.value });
+		this.props.nameChangedHandler(event.target.value, this.props.id);
 	};
 
 	render() {
 		return (
 			<div className="Person">
 				<p 
-					onClick={this.props.click} >
+					onClick={this.props.deletePersonHandler.bind(this, this.props.id)} >
 					I am {this.props.name} and I am {this.props.age} yeas old.
 				</p>
 				<input 
@@ -22,7 +23,6 @@ class Person extends Component {
 					value={this.state.inputValue}
 					onChange={(event) => {
 						this.inputChangeHandler(event);
-						this.props.changed(event);
 					}} />
 			</div>
 		);
