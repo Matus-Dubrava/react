@@ -9,3 +9,28 @@
 .bold {
   font-weight: bold;
 }
+
+.btn {
+  border: 1px solid blue;
+  padding: 16px;
+  background-color: green;
+  font: inherit;
+  color: white;
+  cursor: pointer;
+  transition: .2s all ease-out;
+}
+
+.btn:hover {
+  background-color: lightgreen;
+  color: black;
+}
+
+.btn--red {
+  background-color: red;
+  color: white;
+}
+
+.btn--red:hover {
+  background-color: salmon;
+  color: black;
+}

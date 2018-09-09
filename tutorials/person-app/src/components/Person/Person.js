@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Radium from 'radium';
-import './Person.css';
+import classes from './Person.css';
 
 class Person extends Component {
 	state = {
@@ -14,7 +13,7 @@ class Person extends Component {
 
 	render() {
 		return (
-			<div className="Person">
+			<div className={classes.Person}>
 				<p 
 					onClick={this.props.deletePersonHandler.bind(this, this.props.id)} >
 					I am {this.props.name} and I am {this.props.age} yeas old.
@@ -30,4 +29,4 @@ class Person extends Component {
 	}
 }
 
-export default Radium(Person);
+export default Person;
