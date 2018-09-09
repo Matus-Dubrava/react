@@ -1,6 +1,6 @@
 import React from 'react';
 import './PersonList.css';
-import Person from '../Person/Person';
+import Person from './Person/Person';
 
 const PersonList = (props) => {
 	const persons = props.persons.map((pers, i) => (
