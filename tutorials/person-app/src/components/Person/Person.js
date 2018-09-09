@@ -26,7 +26,7 @@ class Person extends Component {
 					}} />
 			</div>
 		);
-	}
+	} 
 }
 
 export default Person;

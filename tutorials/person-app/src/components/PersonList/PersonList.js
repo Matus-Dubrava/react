@@ -17,7 +17,7 @@ const PersonList = (props) => {
 		<ul className="PersonList">
 			{persons}
 		</ul>
-	);
+  );
 }
 
 export default PersonList;
