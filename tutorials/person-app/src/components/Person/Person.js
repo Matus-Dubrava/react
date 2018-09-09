@@ -3,7 +3,9 @@ import './Person.css';
 
 const Person = () => {
     return (
-        <div className="Person">John</div>
+        <p className="Person">
+            I'm a Person and I am {Math.floor(Math.random() * 30)} yeas old.
+        </p>
     );
 }
 
