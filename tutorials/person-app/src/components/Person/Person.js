@@ -3,7 +3,7 @@ import './Person.css';
 
 class Person extends Component {
 	state = {
-		inputValue: ''
+		inputValue: this.props.name
 	};
 
 	inputChangeHandler = (event) => {
@@ -12,10 +12,9 @@ class Person extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="Person">
 				<p 
-					onClick={this.props.click}
-					className="Person" >
+					onClick={this.props.click} >
 					I am {this.props.name} and I am {this.props.age} yeas old.
 				</p>
 				<input 
