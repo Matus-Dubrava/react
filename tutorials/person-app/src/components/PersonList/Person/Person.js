@@ -6,12 +6,22 @@ class Person extends Component {
 		inputValue: this.props.name
 	};
 
+	componentWillMount() {
+    console.log('[Person.js] inside componentWillMount');
+  }
+
+  componentDidMount() {
+    console.log('[Person.js] inside componentDidMount');
+  }
+
 	inputChangeHandler = (event) => {
 		this.setState({ inputValue: event.target.value });
 		this.props.nameChangedHandler(event.target.value, this.props.id);
 	};
 
 	render() {
+    console.log('[Person.js] inside render');
+
 		return (
 			<div className={classes.Person}>
 				<p 
