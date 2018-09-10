@@ -1,4 +1,5 @@
 import React from 'react';
+
 import classes from './Cockpit.css';
 
 const cockpit = (props) => {
@@ -18,7 +19,7 @@ const cockpit = (props) => {
   }
 
   return (
-    <div>
+    <React.Fragment>
       <h1>Hi, I am a React App</h1>
       <p 
         className={headerClasses.join(' ')} >
@@ -26,7 +27,7 @@ const cockpit = (props) => {
       <button 
         className={btnClasses.join(' ')}
         onClick={props.togglePersonsHandler}>Toggle Persons</button>
-    </div>
+    </React.Fragment>
   );
 };
 
