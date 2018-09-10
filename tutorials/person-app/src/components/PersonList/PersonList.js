@@ -45,7 +45,7 @@ class PersonList extends PureComponent {
 		
 		return (
 			<ul className="PersonList">
-				{persons}
+        {persons}
 			</ul>
 		);
 	}
