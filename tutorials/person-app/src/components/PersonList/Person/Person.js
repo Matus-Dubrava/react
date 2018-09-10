@@ -5,6 +5,12 @@ import classes from './Person.css';
 import withClass from '../../hoc/WithClass';
 
 class Person extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[Person.js] inside Constructor');
+    this.inputElement = React.createRef();
+  }
+
   state = {
     inputValue: this.props.name
   };
@@ -15,12 +21,17 @@ class Person extends Component {
 
   componentDidMount() {
     console.log('[Person.js] inside componentDidMount');
+    if (this.props.position === 0) { this.inputElement.current.focus(); }
   }
 
   inputChangeHandler = (event) => {
     this.setState({ inputValue: event.target.value });
     this.props.nameChangedHandler(event.target.value, this.props.id);
   };
+
+  focus() {
+    this.inputElement.current.focus();
+  }
 
   render() {
     console.log('[Person.js] inside render');
@@ -31,12 +42,11 @@ class Person extends Component {
           onClick={this.props.deletePersonHandler.bind(this, this.props.id)} >
           I am {this.props.name} and I am {this.props.age} yeas old.
         </p>
-        <input 
+        <input
+          ref={this.inputElement} 
           type="text"
           value={this.state.inputValue}
-          onChange={(event) => {
-            this.inputChangeHandler(event);
-          }} />
+          onChange={this.inputChangeHandler} />
       </React.Fragment>
     );
   } 

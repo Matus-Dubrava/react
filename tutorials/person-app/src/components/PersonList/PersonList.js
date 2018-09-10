@@ -3,6 +3,12 @@ import './PersonList.css';
 import Person from './Person/Person';
 
 class PersonList extends PureComponent {
+  constructor(props) {
+    super(props);
+    console.log('[Persons.js] inside constructor');
+    this.lastPersonRef = React.createRef();
+  }
+
   componentWillMount() {
     console.log('[Persons.js] inside componentWillMount');
   }
@@ -28,6 +34,7 @@ class PersonList extends PureComponent {
 
   componentDidUpdate() {
     console.log('[UPDATE Persons.js] inside componentDidUpdate');
+    this.lastPersonRef.current.focus();
   }
 
   render() {
@@ -35,10 +42,12 @@ class PersonList extends PureComponent {
 
     const persons = this.props.persons.map((pers, i) => (
       <Person 
-        key={i}
+        key={pers.id}
         id={pers.id}
+        position={i}
         name={pers.name}
         age={pers.age} 
+        ref={this.lastPersonRef}
         deletePersonHandler={this.props.deletePersonHandler}
         nameChangedHandler={this.props.nameChangedHandler} />	
     ));
