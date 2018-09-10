@@ -39,12 +39,16 @@ class App extends PureComponent {
       { name: 'Manu', age: 32, id: 1 },
       { name: 'Sue', age: 42, id: 2 }
     ],
-    showPersons: false
+    showPersons: false,
+    toggleClickedCounter: 0
   }
 
   togglePersonsHandler = () => {
     this.setState((prevState) => {
-      return { showPersons: !prevState.showPersons }
+      return { 
+        showPersons: !prevState.showPersons, 
+        toggleClickedCounter: prevState.toggleClickedCounter + 1
+      }
     });
   };
 
