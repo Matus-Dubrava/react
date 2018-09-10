@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import classes from './Person.css';
 import withClass from '../../hoc/WithClass';
+import { AuthContext } from '../../../containers/App';
 
 class Person extends Component {
   constructor(props) {
@@ -38,6 +39,11 @@ class Person extends Component {
 
     return (
       <React.Fragment>
+        <AuthContext.Consumer>
+        { (auth) => auth
+                      ? <p>I am authenticated</p>
+                      : null}
+        </AuthContext.Consumer>
         <p 
           onClick={this.props.deletePersonHandler.bind(this, this.props.id)} >
           I am {this.props.name} and I am {this.props.age} yeas old.
