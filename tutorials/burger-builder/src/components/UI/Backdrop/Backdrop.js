@@ -5,7 +5,7 @@ import classes from './Backdrop.css';
 const backdrop = (props) => {
   return props.show 
     ? (<div 
-        onClick={props.purchaseCancelHandler}
+        onClick={props.clicked}
         className={classes.Backdrop} >
       </div>) 
     : null;
