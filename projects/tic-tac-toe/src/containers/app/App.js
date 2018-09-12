@@ -73,8 +73,6 @@ class App extends Component {
           winner
         };
       });
-    } else {
-      alert('Cell is already taken');
     }
   };
 
