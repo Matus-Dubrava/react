@@ -1,0 +1,35 @@
+.Controls {
+    width: 100%;
+    height: 150px;
+    background-color: rgb(26, 0, 49);
+    color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.Controls ul {
+    list-style: none;
+}
+
+.Controls ul li {
+    margin: 10px;
+}
+
+.Controls button {
+    padding: 10px 24px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: blueviolet;
+    color: #eee;
+    display: flex;
+    font-size: 16px;
+    opacity: .9;
+    transition: .2s all ease-out;
+}
+
+.Controls button:hover {
+    opacity: 1;
+}
