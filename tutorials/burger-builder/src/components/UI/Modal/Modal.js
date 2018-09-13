@@ -16,7 +16,7 @@ class Modal extends Component {
     return (
       <React.Fragment>
         <Backdrop 
-          clicked={this.props.purchaseCancelHandler}
+          clicked={this.props.modalClosed}
           show={this.props.show} />
         <div 
           style={{
