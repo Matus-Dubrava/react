@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 
 import './Blog.css';
 import Posts from './Posts/Posts';
@@ -10,12 +11,14 @@ class Blog extends Component {
                 <header>
                     <nav>
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">New Post</a></li>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/new-post">New Post</a></li>
                         </ul>
                     </nav>
                 </header>
-                <Posts />
+                <Route
+                    render={() => <h1>Home</h1>} 
+                    path='/' exact />
             </div>
         );
     }
