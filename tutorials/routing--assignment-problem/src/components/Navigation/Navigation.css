@@ -1,0 +1,28 @@
+.Navigation {
+    background-color: #333;
+    height: 60px;
+}
+
+.Navigation nav {
+    height: 100%;
+}
+
+.Navigation ul {
+    height: 100%;
+    list-style: none;
+    padding: 0 0 0 15px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.Navigation li {
+    margin: 0 15px;
+    text-transform: uppercase;
+}
+
+.Navigation a {
+    color: #eee;
+    text-decoration: none;
+}
+
