@@ -45,9 +45,11 @@ class Blog extends Component {
                     <Route
                         component={Posts} 
                         path='/posts' />
-                    <Redirect 
+                    <Route 
+                        render={() => <h1>404 Page not found</h1>} />
+                    {/* <Redirect 
                         from='/' 
-                        to='/posts' />
+                        to='/posts' /> */}
                 </Switch>
             </div>
         );
