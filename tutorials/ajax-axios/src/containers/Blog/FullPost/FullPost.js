@@ -37,7 +37,6 @@ class FullPost extends Component {
     }
 
     render () {
-        console.log(this.state.loadedPost);
         let post = (
             <p
                 style={{textAlign: 'center'}} >
