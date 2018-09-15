@@ -85,31 +85,39 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    // alert('You continue');
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: 'Matus Dubrava',
-        address: {
-          street: 'Teststreet 12',
-          zipCode: '12394',
-          country: 'Slovakia'
-        },
-        email: 'test@test.com'
-      },
-      deliveryMethod: 'fastest'
-    };
+    // this.setState({ loading: true });
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   price: this.state.totalPrice,
+    //   customer: {
+    //     name: 'Matus Dubrava',
+    //     address: {
+    //       street: 'Teststreet 12',
+    //       zipCode: '12394',
+    //       country: 'Slovakia'
+    //     },
+    //     email: 'test@test.com'
+    //   },
+    //   deliveryMethod: 'fastest'
+    // };
 
-    axios.post('/orders.json', order)
-      .then((res) => {
-        this.setState({ loading: false, purchasing: false });
-      })
-      .catch((err) => {
-        this.setState({ loading: false, purchasing: false });
-        console.log(err);
-      });
+    // axios.post('/orders.json', order)
+    //   .then((res) => {
+    //     this.setState({ loading: false, purchasing: false });
+    //   })
+    //   .catch((err) => {
+    //     this.setState({ loading: false, purchasing: false });
+    //     console.log(err);
+    //   });
+    const queryParams = [];
+    for (let key in this.state.ingredients) {
+      queryParams.push(encodeURIComponent(key) + '=' + encodeURIComponent(this.state.ingredients[key]));
+    }
+
+    this.props.history.push({
+      pathname: '/checkout',
+      search: '?' + queryParams.join('&')
+    });
   };
 
   render() {
