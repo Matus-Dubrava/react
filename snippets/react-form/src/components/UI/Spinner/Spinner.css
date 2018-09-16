@@ -1,0 +1,20 @@
+.Spinner {
+    width: 7rem;
+    height: 7rem;
+    border-top: .8rem solid salmon;
+    border-left: .8rem solid rgba(250, 128, 114, 0.336);
+    border-bottom: .8rem solid rgba(250, 128, 114, 0.336);
+    border-right: .8rem solid rgba(250, 128, 114, 0.336);
+    border-radius: 10rem;
+    margin: 10rem auto;
+    animation: spin 1.5s infinite ease-out; 
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

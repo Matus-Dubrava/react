@@ -1,0 +1,73 @@
+.InputGroup {
+    position: relative;
+}
+
+.Input {
+    display: block;
+    width: 80%;
+    margin: .5rem auto 1.5rem auto;
+    height: 3.5rem;
+    padding-left: 1.5rem;
+    border: 0.1rem solid #ddd;
+    border-radius: 1rem;
+    font-size: 1.4rem;
+    outline: none;
+}
+
+.Input:focus {
+    background-color: rgba(239, 255, 236, .3);
+}
+
+.Danger {
+    background-color: rgb(255, 213, 213);
+    border: 0.2rem solid rgb(105, 21, 21);
+    box-shadow: 0 0 .5rem rgb(105, 21, 21, 1)
+}
+
+.Label {
+    display: flex;
+    font-size: 1.2rem;
+    color: #555;
+    height: 3.5rem;
+    justify-content: flex-start;
+    align-items: center;
+    width: 80%;
+    padding-left: 10%;
+}
+
+.AnimateLabel {
+    animation: none;
+}
+
+@media (min-width: 600px) {
+    .Label {
+        width: 11rem;
+        position: absolute;
+        transform: translate(-7rem, 0);
+        justify-content: flex-end;
+    }
+    
+    .AnimateLabel {
+        animation: labelAppear .4s ease-out;
+    }
+}
+
+.Error {
+    color: rgb(105, 21, 21);
+    width: 80%;
+    margin: -1rem auto 1rem auto;
+    text-align: start;
+    padding-left: 1.5rem;
+    font-size: 1.4rem;
+}
+
+@keyframes labelAppear {
+    0% {
+        transform: translateX(0rem);
+    }
+    100% {
+        transform: translateX(-7rem);
+    }
+}
+
+

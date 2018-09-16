@@ -1,0 +1,21 @@
+.NavigationItem {
+    margin: 0 1.5rem;
+}
+
+.NavigationItem a {
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    font-size: 2rem;
+    letter-spacing: .1rem;
+    opacity: .5;
+    transition: .2s opacity ease-out;
+}
+
+.NavigationItem a:hover {
+    opacity: 1;
+}
+
+.NavigationItem a.Active {
+    color: orangered;
+}

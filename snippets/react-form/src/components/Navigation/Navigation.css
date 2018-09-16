@@ -1,0 +1,13 @@
+.Navigation {
+    height: 6rem;
+    background-color: #333;
+}
+
+.Navigation ul {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    list-style: none;
+    padding-right: 2rem;
+}

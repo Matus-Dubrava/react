@@ -1,0 +1,31 @@
+.ContactData {
+    width: 80%;
+    margin: 2rem auto;
+}
+
+.Btn {
+    padding: 1rem 0;
+    width: 80%;
+    border-radius: 1rem;
+    border: 0.1rem solid #ccc;
+    font-size: inherit;
+    text-transform: uppercase;
+    background-color: rgb(90, 163, 100);
+    color: #eee;
+    font-weight: bold;
+    letter-spacing: .1rem;
+    cursor: pointer;
+    opacity: .8;
+    transition: .2s opacity ease-out;
+    outline: none;
+}
+
+.Btn:hover {
+    opacity: 1;
+}
+
+@media (min-width: 600px) {
+    .ContactData {
+        width: 50rem;
+    }
+}
