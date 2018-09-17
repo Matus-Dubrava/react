@@ -1,37 +1,5 @@
 # REDUX 
 
-## create a store
-We need to import __createStore__ function from __redux__
-which will create a store for our application.
-
-<pre><code>
-import { createStore } from 'redux';
-</pre></code>
-
-This function takes one argument that is a reducer (root reducer). 
-
-<pre><code>
-const reducer = 'path-to-reducer-file';
-const store = createStore(reducer);
-</pre></code>
-
-We may have more than just one reducer but we need to combine them together into one before we it into the __createStore__ function.
-
-<pre><code>
-import { createStore, combineReducers } from 'redux';
-
-const reducer1 = 'path-to-reducer-file1';
-const reducer2 = 'path-to-reducer-file2';
-const rootReducer = combineReducers({
-    rd1: reducer1, 
-    rd2: reducer2
-});
-
-const store = createStore(rootReducer);
-</pre></code>
-
-Here, __rd1__ and __rd2__ properties will be used as prefixes for state slices produced by respective reducer.
-
 ## create a reducer (start - reducer definition)
 
 Reducer is just a simple JavaScript function that takes a state and an action and returns a new state (which should be done in an immutable fashion).
@@ -52,7 +20,7 @@ export default reducer;
 
 This is an example of reducer file where the reducer we have defined just returns an unmodified state no matter what action we are passing to it.
 
-## create a reducer (cont - pass an action)
+## create a reducer (cont. - pass an action)
 
 Once we dispatch an action to the reducer, reducer will be called with __state__ which represents the current state of our application and __action__ which represents the type of action that we want to make.
 
@@ -83,7 +51,7 @@ const reducer = (state = initialState, action) => {
 export default reducer;
 </pre></code>
 
-## create a reducer (cont - remove magic strings)
+## create a reducer (cont. - remove magic strings)
 
 __MAGIC STRING__ -- String that has some special meaning in our application (such as 'INCREMENT' in the case of our example). We should not use magic strings directly because they are easily mistyped and these kinds of errors are pretty hard to track down because we usually don't get any stack trace error.  
 
@@ -124,4 +92,36 @@ const reducer = (state = initialState, action) => {
 
 export default reducer;
 </pre></code>
+
+## create a store
+
+To store the state of our application, we need some kind of object where we store the actual data, a store.
+
+We can create this store by importing __createStore__ function from redux and which takes one argument, that is a reducer, also called a root reducer because we can pass only one. If have more reducer than just one, we will need to combine them together before we create our store.
+
+<pre><code>
+import { createStore } from 'redux';
+
+const reducer = 'path-to-our-reducer-file';
+const store = createStore(reducer);
+</pre></code>
+
+Next, we need to connect redux with our react application by importing __Provider__ component from react-redux module and wrap our app component with it, passing store constant created by __createStore__ function as a property to this component.
+
+<pre><code>
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
+import App from 'path-to-app-component';
+
+const reducer = 'path-to-our-reducer-file';
+const store = createStore(reducer);
+
+const app = <Provider store={store}><App /></Provider>
+ReactDOM.render(app, document.querySelector('.container'));
+</pre></code>
+
+
 
