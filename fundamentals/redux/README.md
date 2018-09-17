@@ -1,6 +1,7 @@
 # REDUX 
 
 [create a reducer](##create-a-reducer)
+[create a reducer - pass an action](##create-a-reducer:-pass-an-action)
 
 ## CREATE A REDUCER
 
@@ -22,7 +23,7 @@ export default reducer;
 
 This is an example of reducer file where the reducer we have defined just returns an unmodified state no matter what action we are passing to it.
 
-## create a reducer (cont. - pass an action)
+## CREATE A REDUCER: pass an action
 
 Once we dispatch an action to the reducer, reducer will be called with __state__ which represents the current state of our application and __action__ which represents the type of action that we want to make.
 
