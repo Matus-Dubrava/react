@@ -33,4 +33,24 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer);
 </pre></code>
 
-Here, __rd1__ and __rd2__ properties will be used as prefixes when we will want to access state produced by one of them.
+Here, __rd1__ and __rd2__ properties will be used as prefixes for state slices produced by respective reducer.
+
+## create a reducer
+
+Reducer is just a simple JavaScript function that takes a state and an action and returns a new state (which should be done in an immutable fashion).
+
+We need to define some initial state that represents our application's state and pass it as a default value for the state parameter of reducer function.
+
+<pre><code>
+const initialState = {
+    counter: 0
+};
+
+const reducer = (state = initialState, action) => {
+    return state;
+};
+
+export default reducer;
+</pre></code>
+
+This is an example of reducer file where the reducer we have defined just returns an unmodified state no matter what action we are passing to it.
