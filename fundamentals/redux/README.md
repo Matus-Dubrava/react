@@ -119,7 +119,7 @@ import App from 'path-to-app-component';
 const reducer = 'path-to-our-reducer-file';
 const store = createStore(reducer);
 
-const app = \<Provider store={store}>\<App />\</Provider>
+const app = `<Provider store={store}><App /></Provider>`
 ReactDOM.render(app, document.querySelector('.container'));
 </pre></code>
 
