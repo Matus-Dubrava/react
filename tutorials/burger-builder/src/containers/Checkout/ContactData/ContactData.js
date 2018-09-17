@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Button from '../../../components/UI/Button/Button';
 import classes from './ContactData.css';
@@ -90,7 +91,6 @@ class ContactData extends Component {
       },
     },
     loading: false,
-    totalPrice: 0,
     formIsValid: false
   }
 
@@ -124,7 +124,7 @@ class ContactData extends Component {
     }
 
     const order = {
-      ingredients: this.props.ingredients,
+      ingredients: this.props.ings,
       price: this.props.totalPrice,
       orderData: formData
     }
@@ -209,4 +209,11 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+const mapStatetoProps = (state) => {
+  return {
+    ings: state.ingredients,
+    totalPrice: state.totalPrice
+  };
+};
+
+export default connect(mapStatetoProps)(ContactData);
