@@ -82,3 +82,46 @@ const reducer = (state = initialState, action) => {
 
 export default reducer;
 </pre></code>
+
+## create a reducer (cont - remove magic strings)
+
+__MAGIC STRING__ -- String that has some special meaning in our application (such as 'INCREMENT' in the case of our example). We should not use magic strings directly because they are easily mistyped and these kinds of errors are pretty hard to track down because we usually don't get any stack trace error.  
+
+We can move those strings into separate file, let's say __actions.js__ were we can create an object and assign them to that object's properties, export that object and instead of using magic strings directly, we will call them by accessing proprties of the object. If we do that and accidentaly mistype the name of the string (name of property of object) then we will get the error which is much easier to track down and repair.
+
+### actions.js 
+
+<pre><code>
+export const INCREMENT = 'INCREMENT';
+export const DECREMENT = 'DECREMENT';
+</pre></code>
+
+### reducer.js
+
+<pre><code>
+import * as actionTypes from 'path-to-actions-file';
+
+const initialState = {
+    counter: 0
+};
+
+const reducer = (state = initialState, action) => {
+    switch (action) {
+        case (actionTypes.INCREMENT): 
+            return {
+                ...state,
+                counter: state.counter + 1
+            };
+        case (actionTypes.DECREMENT):
+            return {
+                ...state,
+                counter: state.counter - 1
+            }
+        default: 
+            return state;
+    }
+};
+
+export default reducer;
+</pre></code>
+
