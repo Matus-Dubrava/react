@@ -6,7 +6,7 @@ Reducer is just a simple JavaScript function that takes a state and an action an
 
 We need to define some initial state that represents our application's state and pass it as a default value for the state parameter of reducer function.
 
-<pre><code>
+```javascript
 const initialState = {
     counter: 0
 };
@@ -16,7 +16,7 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
-</pre></code>
+```
 
 This is an example of reducer file where the reducer we have defined just returns an unmodified state no matter what action we are passing to it.
 
@@ -26,7 +26,7 @@ Once we dispatch an action to the reducer, reducer will be called with __state__
 
 In the next example we create a cases for two types of action that the reducer expects (increment and decrement).
 
-<pre><code>
+```javascript
 const initialState = {
     counter: 0
 };
@@ -49,7 +49,7 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
-</pre></code>
+```
 
 ## create a reducer (cont. - remove magic strings)
 
@@ -59,14 +59,14 @@ We can move those strings into separate file, let's say __actions.js__ were we c
 
 ### actions.js 
 
-<pre><code>
+```javascript
 export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
-</pre></code>
+```
 
 ### reducer.js
 
-<pre><code>
+```javascript
 import * as actionTypes from 'path-to-actions-file';
 
 const initialState = {
@@ -91,7 +91,7 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
-</pre></code>
+```
 
 ## create a store
 
@@ -99,12 +99,12 @@ To store the state of our application, we need some kind of object where we stor
 
 We can create this store by importing __createStore__ function from redux and which takes one argument, that is a reducer, also called a root reducer because we can pass only one. If have more reducer than just one, we will need to combine them together before we create our store.
 
-<pre><code>
+```javascript
 import { createStore } from 'redux';
 
 const reducer = 'path-to-our-reducer-file';
 const store = createStore(reducer);
-</pre></code>
+```
 
 Next, we need to connect redux with our react application by importing __Provider__ component from react-redux module and wrap our app component with it, passing store constant created by __createStore__ function as a property to this component.
 
