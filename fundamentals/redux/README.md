@@ -1,7 +1,7 @@
 # REDUX 
 
 * [reducer](#create-a-reducer)
-** [pass action to reducer](#pass-action-to-reducer)
+  * [pass action to reducer](#pass-action-to-reducer)
 * [create a store](#create-a-store)
 
 ## CREATE A REDUCER
