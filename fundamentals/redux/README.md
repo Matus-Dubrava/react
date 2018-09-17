@@ -1,10 +1,11 @@
 # REDUX 
 
-* [reducer](#create-a-reducer)
-  * [pass action to reducer](#pass-action-to-reducer)
-* [create a store](#create-a-store)
+* [reducer](#reducer)
+  * [passing action to reducer](#passing-action-to-reducer)
+  * [removing magic strings](#removing-magic-strings)
+* [store](#store)
 
-## CREATE A REDUCER
+# REDUCER
 
 Reducer is just a simple JavaScript function that takes a state and an action and returns a new state (which should be done in an immutable fashion).
 
@@ -24,7 +25,7 @@ export default reducer;
 
 This is an example of reducer file where the reducer we have defined just returns an unmodified state no matter what action we are passing to it.
 
-## PASS ACTION TO REDUCER
+## passing action to reducer
 
 Once we dispatch an action to the reducer, reducer will be called with __state__ which represents the current state of our application and __action__ which represents the type of action that we want to make.
 
@@ -55,20 +56,20 @@ const reducer = (state = initialState, action) => {
 export default reducer;
 ```
 
-## create a reducer (cont. - remove magic strings)
+## removing magic strings
 
 __MAGIC STRING__ -- String that has some special meaning in our application (such as 'INCREMENT' in the case of our example). We should not use magic strings directly because they are easily mistyped and these kinds of errors are pretty hard to track down because we usually don't get any stack trace error.  
 
 We can move those strings into separate file, let's say __actions.js__ were we can create an object and assign them to that object's properties, export that object and instead of using magic strings directly, we will call them by accessing proprties of the object. If we do that and accidentaly mistype the name of the string (name of property of object) then we will get the error which is much easier to track down and repair.
 
-### actions.js 
+__actions.js__ 
 
 ```javascript
 export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
 ```
 
-### reducer.js
+__reducer.js__
 
 ```javascript
 import * as actionTypes from 'path-to-actions-file';
@@ -97,7 +98,7 @@ const reducer = (state = initialState, action) => {
 export default reducer;
 ```
 
-## CREATE A STORE
+# STORE
 
 To store the state of our application, we need some kind of object where we store the actual data, a store.
 
