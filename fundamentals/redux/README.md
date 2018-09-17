@@ -2,7 +2,7 @@
 
 * [create a reducer](##create-a-reducer)
 * [create a reducer - pass an action](##create-a-reducer-pass-an-action)
-* [create a store](##create-a-store)
+* [create a store](#create-a-store)
 
 ## CREATE A REDUCER
 
