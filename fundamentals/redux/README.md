@@ -2,6 +2,7 @@
 
 * [create a reducer](##create-a-reducer)
 * [create a reducer - pass an action](##create-a-reducer-pass-an-action)
+* [create a store](##create-a-store)
 
 ## CREATE A REDUCER
 
@@ -96,7 +97,7 @@ const reducer = (state = initialState, action) => {
 export default reducer;
 ```
 
-## create a store
+## CREATE A STORE
 
 To store the state of our application, we need some kind of object where we store the actual data, a store.
 
