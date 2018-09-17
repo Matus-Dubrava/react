@@ -2,7 +2,7 @@
 
 [create a reducer](##create-a-reducer)
 
-##CREATE A REDUCER
+## CREATE A REDUCER
 
 Reducer is just a simple JavaScript function that takes a state and an action and returns a new state (which should be done in an immutable fashion).
 
