@@ -1,8 +1,5 @@
 # REDUX 
 
-## create a root reducer
-First we need to create a reducer that will be responsible for returning slices of state for our application based on the type of dispatched actions.
-
 ## create a store
 We need to import __createStore__ function from __redux__
 which will create a store for our application.
@@ -35,7 +32,7 @@ const store = createStore(rootReducer);
 
 Here, __rd1__ and __rd2__ properties will be used as prefixes for state slices produced by respective reducer.
 
-## create a reducer
+## create a reducer (start - reducer definition)
 
 Reducer is just a simple JavaScript function that takes a state and an action and returns a new state (which should be done in an immutable fashion).
 
@@ -54,3 +51,34 @@ export default reducer;
 </pre></code>
 
 This is an example of reducer file where the reducer we have defined just returns an unmodified state no matter what action we are passing to it.
+
+## create a reducer (cont - pass an action)
+
+Once we dispatch an action to the reducer, reducer will be called with __state__ which represents the current state of our application and __action__ which represents the type of action that we want to make.
+
+In the next example we create a cases for two types of action that the reducer expects (increment and decrement).
+
+<pre><code>
+const initialState = {
+    counter: 0
+};
+
+const reducer = (state = initialState, action) => {
+    switch (action) {
+        case ('INCREMENT'): 
+            return {
+                ...state,
+                counter: state.counter + 1
+            };
+        case ('DECREMENT'):
+            return {
+                ...state,
+                counter: state.counter - 1
+            }
+        default: 
+            return state;
+    }
+};
+
+export default reducer;
+</pre></code>
