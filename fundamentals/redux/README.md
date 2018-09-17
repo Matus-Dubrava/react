@@ -5,6 +5,7 @@
   * [passing action to reducer](#passing-action-to-reducer)
   * [removing magic strings](#removing-magic-strings)
 * [store](#store)
+  * [combining multiple reducers](#combining-multiple-reducers)
 
 # REDUCER
 
@@ -131,6 +132,26 @@ const store = createStore(reducer);
 
 const app = <Provider store={store}><App /></Provider>
 ReactDOM.render(app, document.querySelector('.container'));
+```
+
+## combining multiple reducers
+
+We can split __reducer__ file to multiple files so that each reducer handles a specific piece of our application state. But __createStore__ function expects just one reducer, usually called root reducer. Because of this limitation, we need to combine our reducers into a single one by using function from __redux__ module called __combineReducers__ which takes one object as its argument. 
+
+Inside of this object we create properties -- prefixes for a given reducer with the reducer as a value.
+
+```javascript
+import { createStore. combineReducers } from 'redux';
+
+import App from 'path-to-app-component';
+
+const reducer1 = 'path-to-reducer1-file';
+const reducer2 = 'path-to-reducer2-file';
+const rootReducer = combineReducers({
+    rd1: reducer1,
+    rd2: reducer2
+});
+const store = createStore(reducer);
 ```
 
 
