@@ -108,7 +108,7 @@ const store = createStore(reducer);
 
 Next, we need to connect redux with our react application by importing __Provider__ component from react-redux module and wrap our app component with it, passing store constant created by __createStore__ function as a property to this component.
 
-<pre><code>
+```javascript
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
@@ -119,9 +119,9 @@ import App from 'path-to-app-component';
 const reducer = 'path-to-our-reducer-file';
 const store = createStore(reducer);
 
-const app = `<Provider store={store}><App /></Provider>`
+const app = <Provider store={store}><App /></Provider>
 ReactDOM.render(app, document.querySelector('.container'));
-</pre></code>
+```
 
 
 
