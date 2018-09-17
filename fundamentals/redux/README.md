@@ -1,6 +1,7 @@
 # REDUX 
 
 * [reducer](#reducer)
+  * [what are actions](#what-are-actions)
   * [passing action to reducer](#passing-action-to-reducer)
   * [removing magic strings](#removing-magic-strings)
 * [store](#store)
@@ -24,6 +25,10 @@ export default reducer;
 ```
 
 This is an example of reducer file where the reducer we have defined just returns an unmodified state no matter what action we are passing to it.
+
+## what are actions
+
+Action is JavaScript object that gets passed to reducer. This object must have a __type__ property that is used by reducer to determine what piece of functionality should be executed. Optionally, action can also carry some payload, additional properties, that can be used inside of reducer function.
 
 ## passing action to reducer
 
