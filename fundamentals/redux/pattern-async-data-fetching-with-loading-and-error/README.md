@@ -52,7 +52,7 @@ export const fetchData = () => {
 };
 ```
 
-In our reducers, we have state with 3 properties: __data__ which holds the data, __loading__ that indicates that the data are currently being fetched and __error__ that holds error object if there were any errors (if the fetching of data failed). 
+In our reducers, we have state with 3 properties: __data__ which holds the data, __loading__ that indicates that the data are currently being fetched and __error__ that holds error object if there were any errors (if the fetching failed). 
 
 
 And then we need to handle 3 different action types.
@@ -61,7 +61,7 @@ __FETCH_DATA_START__ we want to show loading info as soon as app starts fetching
 
 __FETCH_DATA_SUCCESS__ fetching is done so we set the loading state to false and update the data 
 
-__FETCH_DATA_FAIL__ fetching failed so we set the loading state to false and update error state
+__FETCH_DATA_FAIL__ fetching failed so we set the loading state to false and update the error state
 
 __reducer.js__
 
@@ -103,7 +103,7 @@ const reducer = (state = initialState, action) => {
 export default reducer;
 ```
 
-And as it can be seen just by looking on the code above, we store *magin strings* in a separate file.
+And as it can be seen just by looking on the code above, we store *magic strings* in a separate file.
 
 __actionTypes.js__
 
