@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import axios from '../../axios-orders';
 
 export const addIngredient = (ingredientName) => {
   return {
@@ -11,5 +12,25 @@ export const removeIngredient = (ingredientName) => {
   return {
     type: actionTypes.REMOVE_INGREDIENT, 
     ingredientName
+  };
+};
+
+const _fetchIngredients = (ingredients) => {
+  return {
+    type: actionTypes.FETCH_INGREDIENTS,
+    ingredients
+  }
+};
+
+export const fetchIngredients = () => {
+  return (dispatch) => {
+    axios.get('https://burger-builder-32ae6.firebaseio.com/ingredients.json')
+      .then((res) => {
+        dispatch(_fetchIngredients(res.data));
+      });
+      // .catch((err) => {
+      //   console.log('error');
+      //   this.setState({ error: true });
+      // });
   };
 };

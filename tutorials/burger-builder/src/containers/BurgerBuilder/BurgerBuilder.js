@@ -17,16 +17,9 @@ class BurgerBuilder extends Component {
     error: false
   };
 
-  // componentDidMount() {
-  //   axios.get('https://burger-builder-32ae6.firebaseio.com/ingredients.json')
-  //     .then((res) => {
-  //       this.setState({ ingredients: res.data });
-  //     })
-  //     .catch((err) => {
-  //       console.log('error');
-  //       this.setState({ error: true });
-  //     });
-  // }
+  componentDidMount() {
+    this.props.onFetchIngredients();
+  }
 
   // check if there is at least one ingredient with non-zero
   // value, if there is not such ingredient, return false
@@ -110,7 +103,8 @@ const addStateToProps = (state) => {
 const addDispatchToProps = (dispatch) => {
   return {
     onIngredientAdded: (ingredientName) => {dispatch(actionCreators.addIngredient(ingredientName))},
-    onIngredientRemoved: (ingredientName) => {dispatch(actionCreators.removeIngredient(ingredientName))}
+    onIngredientRemoved: (ingredientName) => {dispatch(actionCreators.removeIngredient(ingredientName))},
+    onFetchIngredients: () => {dispatch(actionCreators.fetchIngredients())}
   };
 };
 
