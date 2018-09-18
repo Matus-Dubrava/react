@@ -1,15 +1,15 @@
 # REDUX 
 
 * [reducer](#reducer)
-  * [storing state](#storing-state)
-  * [combining multiple reducers](#combining-multiple-reducers)
-  * [connecting state and actions with react](#connecting-state-and-actions-with-react)
-  * [what are actions](#what-are-actions)
-  * [dispatching action from component](#dispatching-action-from-component)
-  * [dispatching action with payload](#dispatching-action-with-payload)
-  * [handling action in reducer](#passing-action-to-reducer)
-  * [handling action with payload](#handling-action-with-payload)
-  * [removing magic strings](#removing-magic-strings)
+* [storing state](#storing-state)
+* [combining multiple reducers](#combining-multiple-reducers)
+* [connecting state and actions with react](#connecting-state-and-actions-with-react)
+* [what are actions](#what-are-actions)
+* [dispatching action from component](#dispatching-action-from-component)
+* [dispatching action with payload](#dispatching-action-with-payload)
+* [handling action in reducer](#passing-action-to-reducer)
+* [handling action with payload](#handling-action-with-payload)
+* [removing magic strings](#removing-magic-strings)
 
 ## reducer
 
