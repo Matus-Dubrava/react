@@ -7,10 +7,11 @@
   * [what are actions](#what-are-actions)
   * [dispatching action from component](#dispatching-action-from-component)
   * [dispatching action with payload](#dispatching-action-with-payload)
-  * [passing action to reducer](#passing-action-to-reducer)
+  * [handling action in reducer](#passing-action-to-reducer)
+  * [handling action with payload](#handling-action-with-payload)
   * [removing magic strings](#removing-magic-strings)
 
-# REDUCER
+## reducer
 
 Reducer is just a simple JavaScript function that takes a state and an action and returns a new state (which should be done in an immutable fashion).
 
@@ -142,7 +143,7 @@ const x = 10;
 add: (amount) => dispatch({ type: actions.INCREMENT, amount })
 ```
 
-## passing action to reducer
+## handling action in reducer
 
 Once we dispatch an action to the reducer, reducer will be called with __state__ which represents the current state of our application and __action__ which represents the type of action that we want to make.
 
@@ -172,6 +173,22 @@ const reducer = (state = initialState, action) => {
 
 export default reducer;
 ```
+
+## handling action with payload
+
+If we have dispatched action with payload, we can then access it in a reducer as a property of the action object.
+
+const reducer = (state = initialState, action) => {
+    switch (action) {
+        case ('ADD'): 
+            return {
+                ...state,
+                counter: state.counter + action.amount
+            };
+        default: 
+            return state;
+    }
+};
 
 ## removing magic strings
 
