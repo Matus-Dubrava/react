@@ -49,9 +49,10 @@ export const fetchOrdersSuccess = (orders) => {
   };
 };
 
-export const fetchOrdersFail = () => {
+export const fetchOrdersFail = (error) => {
   return {
-    type: actionTypes.FETCH_ORDERS_FAIL
+    type: actionTypes.FETCH_ORDERS_FAIL,
+    error
   };
 };
 
@@ -62,8 +63,6 @@ export const fetchOrdersStart = () => {
 }
 
 export const fetchOrders = () => {
-  // perform axios call
-  // call fetch ordersStart
   return (dispatch) => {
     dispatch(fetchOrdersStart());
 
@@ -72,7 +71,7 @@ export const fetchOrders = () => {
         dispatch(fetchOrdersSuccess(res.data));
       })
       .catch((err) => {
-        dispatch(fetchOrders.fetchOrdersFail());
+        dispatch(fetchOrdersFail(err));
       });
   };
 };
