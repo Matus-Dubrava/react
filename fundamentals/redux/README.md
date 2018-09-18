@@ -16,6 +16,8 @@
 * [adding middleware](#adding-middleware)
 * [connecting redux devtools with application](#connecting-redux-devtools-with-application)
 
+* [PATTERN: async data fetching with loading and error state handling](https://github.com/Matus-Dubrava/react/tree/master/fundamentals/redux/pattern-async-data-fetching-with-loading-and-error)
+
 ## reducer
 
 Reducer is just a simple JavaScript function that takes a state and an action and returns a new state (which should be done in an immutable fashion).
