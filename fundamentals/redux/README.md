@@ -178,6 +178,7 @@ export default reducer;
 
 If we have dispatched action with payload, we can then access it in a reducer as a property of the action object.
 
+```javascript
 const reducer = (state = initialState, action) => {
     switch (action) {
         case ('ADD'): 
@@ -189,6 +190,7 @@ const reducer = (state = initialState, action) => {
             return state;
     }
 };
+```
 
 ## removing magic strings
 
