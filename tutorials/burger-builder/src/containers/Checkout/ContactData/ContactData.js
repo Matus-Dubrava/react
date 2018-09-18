@@ -110,8 +110,6 @@ class ContactData extends Component {
       isValid = isValid && value.length <= rules.maxLength;
     }
 
-
-
     return isValid;
   }
 
