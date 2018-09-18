@@ -15,9 +15,10 @@ export const removeIngredient = (ingredientName) => {
   };
 };
 
-const _fetchIngredients = (ingredients) => {
+const _fetchIngredients = (error, ingredients) => {
   return {
     type: actionTypes.FETCH_INGREDIENTS,
+    error,
     ingredients
   }
 };
@@ -26,11 +27,10 @@ export const fetchIngredients = () => {
   return (dispatch) => {
     axios.get('https://burger-builder-32ae6.firebaseio.com/ingredients.json')
       .then((res) => {
-        dispatch(_fetchIngredients(res.data));
+        dispatch(_fetchIngredients(false, res.data));
+      })
+      .catch((err) => {
+        dispatch(_fetchIngredients(true));
       });
-      // .catch((err) => {
-      //   console.log('error');
-      //   this.setState({ error: true });
-      // });
   };
 };

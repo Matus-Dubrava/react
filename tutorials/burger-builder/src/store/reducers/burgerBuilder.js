@@ -8,13 +8,9 @@ const INGREDIENT_PRICES = {
 };
 
 const initialState = {
-  ingredients: {
-    salad: 0,
-    meat: 0,
-    cheese: 0,
-    bacon: 0
-  },
-  totalPrice: 4
+  ingredients: null,
+  totalPrice: 4,
+  error: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -38,9 +34,22 @@ const reducer = (state = initialState, action) => {
         totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
       };
     case actionTypes.FETCH_INGREDIENTS:
-      return {
-        ...state,
-        ingredients: action.ingredients
+      if (action.error) {
+        return {
+          ...state,
+          error: true
+        };
+      } else {
+        return {
+          ...state,
+          ingredients: {
+            salad: action.ingredients.salad,
+            bacon: action.ingredients.bacon,
+            cheese: action.ingredients.cheese,
+            meat: action.ingredients.meat
+          },
+          error: false
+        }
       }
     default: 
       return state;
