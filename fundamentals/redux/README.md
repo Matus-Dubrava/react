@@ -9,8 +9,9 @@
 * [dispatching action with payload](#dispatching-action-with-payload)
 * [handling action in reducer](#passing-action-to-reducer)
 * [handling action with payload](#handling-action-with-payload)
-* [action creators](#-action-creators)
+* [action creators](#action-creators)
 * [removing magic strings](#removing-magic-strings)
+* [async action creators](#async-action-creators)
 
 * [adding middleware](#adding-middleware)
 * [connecting redux devtools with application](#connecting-redux-devtools-with-application)
@@ -265,6 +266,42 @@ const reducer = (state = initialState, action) => {
 
 export default reducer;
 ```
+
+## async action creators
+
+If we want to update our state based on some async operation like getting data from server via ajax call, then we
+need to import module called __redux-thunk__ which provides us with middleware function that we need to apply to our
+middleware stack.
+
+```javascript
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+
+const store = createStore(reducer, applyMiddleware(thunk));
+```
+
+And then in a file where we have our action creators we can creat an async one like this.
+
+```javascript
+const _saveResults = (results) => {
+    return {
+        type: actionTypes.SAVE_RESULT,
+        result
+    };
+};
+
+export saveResult = (result) => {
+    return (dispatch) => {
+        setTimeout(() => {
+            dispatch(_saveResult(result))
+        }, 1000);
+    };
+};
+```
+
+Here we are exporting only the async action creator because the sync one is used only as a helper. Dispatch argument
+for async action creators is provided by __thunk__ middleware that we have imported and applied in the first step.
+
 
 ## adding middleware
 
