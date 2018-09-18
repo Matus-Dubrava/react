@@ -13,6 +13,7 @@
 * [removing magic strings](#removing-magic-strings)
 
 * [adding middleware](#adding-middleware)
+* [connecting redux devtools with application](#connecting-redux-devtools-with-application)
 
 ## reducer
 
