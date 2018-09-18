@@ -9,7 +9,10 @@
 * [dispatching action with payload](#dispatching-action-with-payload)
 * [handling action in reducer](#passing-action-to-reducer)
 * [handling action with payload](#handling-action-with-payload)
+* [action creators](#-action-creators)
 * [removing magic strings](#removing-magic-strings)
+
+* [adding middleware](#adding-middleware)
 
 ## reducer
 
@@ -192,6 +195,34 @@ const reducer = (state = initialState, action) => {
 };
 ```
 
+## action creators
+
+Action creator is a simple function that return object that can be used as an argument for __dispatch__ function inside
+of __mapDispatchToProps__ function. 
+
+__actions.js__
+
+```javascript
+export const increment = (payload) => {
+    return {
+        type: INCREMENT,
+        payload
+    };
+}
+```
+
+__in component file__
+
+```javascript
+import * as actions from 'path-to-actions.js';
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        increment: dispatch(actions.increment);
+    };
+}
+```
+
 ## removing magic strings
 
 __MAGIC STRING__ -- String that has some special meaning in our application (such as 'INCREMENT' in the case of our example). We should not use magic strings directly because they are easily mistyped and these kinds of errors are pretty hard to track down because we usually don't get any stack trace error.  
@@ -233,6 +264,41 @@ const reducer = (state = initialState, action) => {
 
 export default reducer;
 ```
+
+## adding middleware
+
+Middleware is a function or a piece of code that sits between two other layers of software. In redux, middleware functions sits between component that dispatches a function and a reducer. If we want to use middleware, we need to import __applyMiddleware__ function from __redux__ and call it with middleware function as its argument in __createStore__ function. 
+
+```javascript
+import { createStore, applyMiddleware }
+
+const logger = (store) => {
+    return (next) => {
+        return (action) => {
+            const result = next(action);
+            console.log(store.getState());
+            return result;
+        }
+    }
+}
+
+const store = createStore(reducer, applyMiddleware(logger));
+```
+
+We can pass multiple middleware functions to __applyMiddleware__ that will then be proccessed one after another once the action is dispatched from component.
+
+## connecting redux devtools with application
+
+If we want to use redux devtools in our application then:
+
+```javascript
+import { createStore, applyMiddleware, compose } from 'redux';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(reducer, composeEnhancers(applyMiddleware(...middleware)));
+```
+
 
 
 
