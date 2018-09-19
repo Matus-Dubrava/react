@@ -19,8 +19,6 @@ class BurgerBuilder extends Component {
     this.props.onFetchIngredients();
   }
 
-  // check if there is at least one ingredient with non-zero
-  // value, if there is not such ingredient, return false
   getPurchaseState(ingredients) {
     const ingredientsKeys = Object.keys(ingredients);
     const sum = ingredientsKeys.reduce((acc, v) => {
@@ -30,7 +28,12 @@ class BurgerBuilder extends Component {
   }
 
   purchaseHandler = () => {
-    this.setState({ purchasing: true });
+    if (this.props.isAuthenticated) {
+      this.setState({ purchasing: true });
+    } else {
+      this.props.onSetAuthRedirectPath('/checkout');
+      this.props.history.push('/auth');
+    }      
   };
 
   purchaseCancelHandler = () => {
@@ -57,6 +60,7 @@ class BurgerBuilder extends Component {
           <Burger 
               ingredients={this.props.ings} />
           <BuildControls
+            isAuthenticated={this.props.isAuthenticated}
             purchaseHandler={this.purchaseHandler}
             purchasable={this.getPurchaseState(this.props.ings)}
             totalPrice={this.props.totalPrice}
@@ -92,7 +96,8 @@ const addStateToProps = (state) => {
   return {
     ings: state.burger.ingredients,
     totalPrice: state.burger.totalPrice,
-    error: state.burger.error
+    error: state.burger.error,
+    isAuthenticated: state.auth.token !== null
   };
 };
 
@@ -101,7 +106,8 @@ const addDispatchToProps = (dispatch) => {
     onIngredientAdded: (ingredientName) => {dispatch(actionCreators.addIngredient(ingredientName))},
     onIngredientRemoved: (ingredientName) => {dispatch(actionCreators.removeIngredient(ingredientName))},
     onFetchIngredients: () => {dispatch(actionCreators.fetchIngredients())},
-    onInitPurchase: () => {dispatch(actionCreators.purchaseInit())}
+    onInitPurchase: () => {dispatch(actionCreators.purchaseInit())},
+    onSetAuthRedirectPath: (path) => dispatch(actionCreators.setAuthRedirectPath(path))
   };
 };
 

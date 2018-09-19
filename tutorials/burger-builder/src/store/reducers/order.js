@@ -4,7 +4,7 @@ import { updateObject } from '../utility';
 const initialState = {
   orders: [],
   loading: false,
-  purchased: true
+  purchased: false
 };
 
 const purchaseBurgerSuccess = (state, action) => {
