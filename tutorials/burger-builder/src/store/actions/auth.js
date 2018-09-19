@@ -2,6 +2,21 @@ import axios from 'axios';
 
 import * as actionTypes from './actionTypes';
 
+export const logout = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT
+  }
+};
+
+export const checkAuthTimeout = (expirationTime) => {
+  return (dispatch) => {
+    setTimeout(() => {
+      console.log('timeout finished');
+      dispatch(logout());
+    }, +expirationTime * 1000);
+  }
+};
+
 export const authStart = () => {
   return {
     type: actionTypes.AUTH_START
@@ -40,6 +55,7 @@ export const auth = (email, password, isSignup) => {
     axios.post(url, authData)
       .then((res) => {
         dispatch(authSuccess(res.data));
+        dispatch(checkAuthTimeout(res.data.expiresIn))
       })
       .catch((err) => {
         dispatch(authFail(err.response.data.error));
