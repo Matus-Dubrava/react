@@ -16,23 +16,21 @@ class App extends Component {
   }
 
   render() {
-    // let orders = <Redirect to="/" />;
-    // let checkout = <Redirect to="/" />;
+    let orders = <Redirect to="/" />;
+    let checkout = <Redirect to="/" />;
 
-    // if (this.props.isAuthenticated) {
-    //   orders = <Route path="/orders" component={Orders} />;
-    //   checkout = <Route path="/checkout" component={Checkout} />; 
-    // }
+    if (this.props.isAuthenticated) {
+      orders = <Route path="/orders" component={Orders} />;
+      checkout = <Route path="/checkout" component={Checkout} />; 
+    }
 
     return (
       <div>
         <Layout>
           <Switch>
             <Route path="/auth" component={Auth} />
-            {/* {checkout}
-            {orders} */}
-            <Route path="/checkout" component={Checkout} />
-            <Route path="/orders" component={Orders} />
+            {checkout}
+            {orders}
             <Route path="/logout" component={Logout} />
             <Route path="/" component={BurgerBuilder} />
           </Switch>
