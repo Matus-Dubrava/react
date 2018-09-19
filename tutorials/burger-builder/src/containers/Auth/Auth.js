@@ -5,6 +5,7 @@ import classes from './Auth.css';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import * as actionCreators from '../../store/actions/index';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Auth extends Component {
   state = {
@@ -100,6 +101,13 @@ class Auth extends Component {
       });
     }
 
+    let errorMessage = null;
+    if (this.props.error) {
+      errorMessage = (
+        <p>{this.props.error.message}</p>
+      );
+    }
+
     const form = formElementsArray.map((formElement) => (
       <Input
         touched={formElement.config.touched}
@@ -110,26 +118,36 @@ class Auth extends Component {
         elementType={formElement.config.elementType}
         elementConfig={formElement.config.elementConfig} 
         value={formElement.config.value} />
-    ));
+        ));
+        
+      let formWrapper = <Spinner />
+      if (!this.props.loading) {
+        formWrapper = (
+          <div className={classes.Auth}>
+            {errorMessage}
+            <form onSubmit={this.submitHandler}>
+              {form}
+              <Button btnType="Success">Submit</Button>
+            </form>
+            <Button   
+              clicked={this.switchAuthModeHandler}
+              btnType="Danger" >
+              SWITH TO {this.state.isSignup ? 'SIGNIN': 'SIGNUP'}</Button>
+          </div>
+      );
+    }
 
-    return (
-      <div className={classes.Auth}>
-        <form onSubmit={this.submitHandler}>
-          {form}
-          <Button btnType="Success">Submit</Button>
-        </form>
-        <Button   
-          clicked={this.switchAuthModeHandler}
-          btnType="Danger" >
-          SWITH TO {this.state.isSignup ? 'SIGNIN': 'SIGNUP'}</Button>
-      </div>
-    );
+
+    return formWrapper;
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    // isAuthenticated: state.auth.isAuthenticated
+    token: state.auth.token,
+    error: state.auth.error,
+    userId: state.auth.userId,
+    loading: state.auth.loading
   };
 };
 
