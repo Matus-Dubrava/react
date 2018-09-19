@@ -17,6 +17,7 @@ class BurgerBuilder extends Component {
 
   componentDidMount() {
     this.props.onFetchIngredients();
+    this.props.onSetAuthRedirectPath('/');
   }
 
   getPurchaseState(ingredients) {
