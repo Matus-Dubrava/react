@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
@@ -16,11 +16,21 @@ class App extends Component {
   }
 
   render() {
+    // let orders = <Redirect to="/" />;
+    // let checkout = <Redirect to="/" />;
+
+    // if (this.props.isAuthenticated) {
+    //   orders = <Route path="/orders" component={Orders} />;
+    //   checkout = <Route path="/checkout" component={Checkout} />; 
+    // }
+
     return (
       <div>
         <Layout>
           <Switch>
             <Route path="/auth" component={Auth} />
+            {/* {checkout}
+            {orders} */}
             <Route path="/checkout" component={Checkout} />
             <Route path="/orders" component={Orders} />
             <Route path="/logout" component={Logout} />
@@ -32,10 +42,16 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.token !== null
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onTryAutoSignup: () => dispatch(actionCreators.authCheckState())
   }; 
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
