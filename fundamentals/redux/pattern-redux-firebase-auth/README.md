@@ -104,6 +104,23 @@ export const logout = () => {
 };
 ```
 
+__authAutoLogin__
+
+This action is dispatched from the root component once that component is mounted to check whether we do have valid credentials stored in *localStorage* that could be used. If that is the case, then this action dispatches __authSuccess__
+action that populates redux state with the credentials. It also sets automatic logout once the token expires.
+
+```javascript
+export const authAutoLogin = (email, userId, expiresIn, token) => {
+  return (dispatch) => {
+    dispatch(authSuccess(token, email, userId, expiresIn));
+
+    setTimeout(() => {
+      dispatch(logout());
+    }, +expiresIn * 1000);
+  };
+};
+```
+
 ## auth reducer
 
 In our auth reducer's slice of state, we are storing these properties
@@ -286,6 +303,43 @@ const mapDispatchToProsp = (dispatch) => {
   };
 };
 ```
+
+## root component
+
+Here we are trying to automatically log user in if there are valid credentials stored inside of *localStorage*. We are handling this logic in *componentDidMount* method.
+
+```javascript
+componentDidMount() {
+  this.onTryAutoLogin();
+}
+
+onTryAutoLogin = () => {
+  const email = localStorage.getItem('email');
+  const token = localStorage.getItem('token');
+  const expiresIn = localStorage.getItem('expirationDate');
+  const userId = localStorage.getItem('userId');
+  const expiresInEpochTime = new Date(expiresIn).getTime();
+
+  if (token && expiresInEpochTime > Date.now()) {
+    const remainingTime = Math.floor((expiresInEpochTime - Date.now()) / 1000);
+    this.props.onAuthAutoLogin(email, userId, remainingTime, token);
+  }
+};
+```
+
+And for that, we need to get the __authAutoLogin__ action from our *actions* file.
+
+```javascript
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAuthAutoLogin: (email, userId, expiresIn, token) => dispatch(actions.authAutoLogin(email, userId, expiresIn, token))
+  };
+};
+```
+
+
+
+
 
 
 
