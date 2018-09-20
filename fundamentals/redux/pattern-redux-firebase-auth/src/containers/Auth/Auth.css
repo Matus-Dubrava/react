@@ -1,0 +1,109 @@
+.Auth {
+    height: 100vh;
+    background-image: linear-gradient(
+        to bottom right,
+        rgba(156, 38, 122, .9),
+        rgba(3, 106, 173, .9)
+    ), url('../../assets/images/hero.png');
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+}
+
+.Error {
+    color: rgb(214, 49, 49);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+}
+
+.Logo {
+    width: 10rem;
+    height: 10rem;
+    background-image: url('../../assets/images/logo.png');
+    background-size: cover;
+    background-position: center center;
+}
+
+.Auth form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.Auth h2 {
+    color: white;
+    font-size: 3.6rem;
+    font-weight: 400;
+    margin-bottom: 3rem;
+    margin-top: 6rem;
+    animation: slideFromLeft .7s backwards ease-out;
+}
+
+.Auth input {
+    display: block;
+    height: 5rem;
+    margin-bottom: 2rem;
+    width: 80%;
+    border: none;
+    padding-left: 2rem;
+    outline: none;
+    font-size: 2rem;
+    color: #555;
+}
+
+.InputFst {
+    animation: slideFromLeft .7s backwards ease-out .2s;
+}
+
+.InputSnd {
+    animation: slideFromLeft .7s backwards ease-out .4s;
+}
+
+.Auth button {
+    display: block;
+    border: none;
+    outline: none;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.BtnLogin {
+    width: 80%;
+    margin-top: 3rem;
+    font-size: 2.6rem;
+    height: 5rem;
+    background-color: #a23ab4;
+    color: white;
+    animation: slideFromLeft .7s backwards ease-out .6s;
+}
+
+.BtnCreateAccount {
+    margin-top: 2rem;
+    font-size: 1.8rem;
+    color: white;
+    background-color: transparent;
+    animation: slideFromLeft .7s backwards ease-out .8s;
+}
+
+@keyframes slideFromLeft {
+    0% {
+        transform: translateX(-20rem);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    70% {
+        transform: translateX(2rem);
+    }
+    85% {
+        transform: translateX(-1rem);
+    }
+    100% {
+        transform: translate(0)
+    }
+}
