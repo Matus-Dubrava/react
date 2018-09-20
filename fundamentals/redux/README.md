@@ -17,6 +17,7 @@
 * [connecting redux devtools with application](#connecting-redux-devtools-with-application)
 
 * [PATTERN: async data fetching with loading and error state handling](https://github.com/Matus-Dubrava/react/tree/master/fundamentals/redux/pattern-async-data-fetching-with-loading-and-error)
+* [PATTERN: redux authentication with firebase](https://github.com/Matus-Dubrava/react/tree/master/fundamentals/redux/pattern-redux-firebase-auth)
 
 ## reducer
 
