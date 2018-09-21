@@ -2,7 +2,7 @@
 
 ## lazy loading
 
-The idea behind lazy loading is load some component asynchronously, only when they are actualy needed so we are not loading the whole JavaScript code at once. This can improve user experience if the components are big in size. 
+The idea behind lazy loading is to load some component asynchronously, only when they are actualy needed so that our JavaScript code doesn't need to be downloaded all at once. This can improve user experience if the components are big in size. 
 
 If we are using preconfigured webpack with *create-react-app* then we can create a higher order component in our JavaScript project and use it to load some of our components that are not immediately needed when the user enters our page.
 
@@ -38,7 +38,7 @@ Here, asyncComponent is a function that takes another function as its only argum
 
 In a render method, we try to render that obtained component if it exists and pass whatever props it received. If the async function wasn't loaded then we simply return *null*.
 
-In our root components, or any other component which needs to load another components that we want to load lazyly, we need to remove the old import statement and replace it with function definition.
+In our root component, or any other component which needs to load another components that we want to load lazyly, we need to remove the old import statement and replace it with function definition.
 
 Instead of 
 
@@ -54,9 +54,9 @@ const asyncMyComponent = asyncComponent(() => {
 });
 ```
 
-where __asyncComponent__ is the function that we have definied earlier. Here we are using *import* as a function not as a statement and calling it inside of callback passed to __asyncComponent__ function.
+where __asyncComponent__ is the function that we have definied earlier. Here we are using *import* as a function not as a statement and calling it inside of callback passed to the __asyncComponent__ function.
 
-Last thing to do is to use this __asyncMyComponents__ in place where we would normally used the Components obtained by import statement.
+Last thing to do is to use this __asyncMyComponent__ (component obtained by calling __asyncComponent__) in place where we would normally have used the Components obtained by import statement.
 
 E.g.
 
