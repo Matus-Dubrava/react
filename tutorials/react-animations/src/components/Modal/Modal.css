@@ -23,6 +23,22 @@
     animation: 1s closeModal ease-out forwards;
 }
 
+/* .fade-slide-enter {
+
+}
+
+.fade-slide-enter-active {
+    animation: .4s openModal ease-out forwards;
+}
+
+.fade-slide-exit {
+
+}
+
+.fade-slide-exit-active {
+    animation: 1s closeModal ease-out forwards;
+} */
+
 @keyframes openModal {
     0% {
         opacity: 0;
