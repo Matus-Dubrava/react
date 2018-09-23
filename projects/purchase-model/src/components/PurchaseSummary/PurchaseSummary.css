@@ -1,0 +1,57 @@
+.PurchaseSummary {
+    padding: 2rem;
+}
+
+.PurchaseSummary__PurchaseBtn {
+    padding: 1rem 2rem;
+    background-color: rgb(185, 121, 0);
+    transition: .2s all ease-out;
+    color: white;
+    outline: none;
+    border: none;
+    margin: 3rem 1rem 0 0;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    border-radius: .5rem;
+    cursor: pointer;
+}
+
+.PurchaseSummary__PurchaseBtn:hover {
+    background-color: rgb(134, 87, 0);
+}
+
+.PurchaseSummary__CancelBtn {
+    padding: 1rem 2rem;
+    background-color: transparent;
+    transition: .2s all ease-out;
+    color: rgb(211, 59, 59);
+    outline: none;
+    border: 1px solid rgb(211, 59, 59);
+    margin: 3rem 1rem 0 0;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    border-radius: .5rem;
+    cursor: pointer;
+}
+
+.PurchaseSummary__CancelBtn:hover {
+    background-color: rgba(211, 59, 59, 0.247);
+}
+
+.PurchaseSummary__BackBtn {
+    padding: 1rem 2rem;
+    background-color: transparent;
+    transition: .2s all ease-out;
+    color: rgb(128, 206, 128);
+    outline: none;
+    border: 1px solid rgb(128, 206, 128);
+    margin: 3rem 1rem 0 0;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    border-radius: .5rem;
+    cursor: pointer;
+}
+
+.PurchaseSummary__BackBtn:hover {
+    background-color: rgba(128, 206, 128, 0.2);
+}

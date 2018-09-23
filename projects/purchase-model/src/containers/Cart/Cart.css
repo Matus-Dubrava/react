@@ -1,0 +1,34 @@
+.Cart {
+    width: 50rem;
+    margin: 3rem auto;
+    border: 1px solid #ddd;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+}
+
+.Cart_TotalPrice {
+    margin: 2rem 0;
+}
+
+.Cart__PurchaseBtn {
+    padding: 1rem 2rem;
+    background-color: rgb(185, 121, 0);
+    border: none;
+    border-radius: 1rem;
+    font-size: 1.5rem;
+    color: white;
+    transition: .2s all ease-out;
+    cursor: pointer;
+    outline: none;
+    text-transform: uppercase;
+}
+
+.Cart__PurchaseBtn:hover {
+    background-color: rgb(134, 87, 0);
+}
+
+.Cart__PurchaseBtn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

@@ -1,0 +1,23 @@
+.PurchasePayment {
+    padding: 2rem;
+}
+
+.PurchasePayment div {
+    display: flex;
+    width: 10rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.PurchasePayment label {
+    cursor: pointer;
+    transition: .15s color ease-out;
+}
+
+.PurchasePayment input {
+    cursor: pointer;
+}
+
+.PurchasePayment div:hover label {
+    color: rgb(211, 59, 59);
+}
