@@ -1,6 +1,6 @@
 * [handling async operations with redux-thunk](#handling-async-operations-with-redux-thunk)
 * [refactoring with redux-saga](#refactoring-with-redux-saga)
-* [performing multiple async calls simultaneously](performing-multiple-async-calls-simultaneously)
+* [performing multiple async calls simultaneously](#performing-multiple-async-calls-simultaneously)
 
 Redux Saga module provides us with middleware capable of handling async operations such as AJAX calls or timers. Instead of placing side effect into our action creator, we move them to so called sagas which are generator functions that are used to handle these side effects. Therefore our action creators can stay pure, unlike in case of using middleware provided by *redux-thunk* module.
 
