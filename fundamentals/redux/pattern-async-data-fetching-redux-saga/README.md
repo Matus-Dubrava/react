@@ -1,5 +1,6 @@
 * [handling async operations with redux-thunk](#handling-async-operations-with-redux-thunk)
 * [refactoring with redux-saga](#refactoring-with-redux-saga)
+* [performing multiple async calls simultaneously](performing-multiple-async-calls-simultaneously)
 
 Redux Saga module provides us with middleware capable of handling async operations such as AJAX calls or timers. Instead of placing side effect into our action creator, we move them to so called sagas which are generator functions that are used to handle these side effects. Therefore our action creators can stay pure, unlike in case of using middleware provided by *redux-thunk* module.
 
@@ -188,6 +189,36 @@ sagaMiddleware.run(watcher.watchPosts);
 ```
 
 With this setup, we are now able to call *fetchPosts* action creator in *mapDispatchToProps* callback and use it the same way as before.
+
+## performing multiple async calls simultaneously
+
+Let's consider some *watcher* function that we are handling more than just one action with saga function.
+
+```javascript
+export function* watchAuth() {
+    yield takeEvery(actionTypes.FETCH_POSTS, fetchPostsSaga),
+    yield takeEvery(actionTypes.FETCH_COMMENTS, fetchCommentsSaga)
+};
+```
+
+Now, it might be perfectly fine to write the code like this, but there is a little catch. Because of how the generator functions work, the code above will pause at first action that it intercepts and then it will wait for result before handling another one. Again this might be something that we want but in some cases, we might want to perform more tasks at once, such as dispatching more ajax call without waiting for one to finish before dispatching the other one.
+
+For this, we can import `all` function from `redux-saga/effects` and wrap our yield statements with it, combining them into just one.
+
+
+```javascript
+import { takeEvery, all } from 'redux-saga/effects';
+
+export function* watchAuth() {
+    yield all([
+        takeEvery(actionTypes.AUTH_INITIATE_LOGOUT, logoutSaga),
+        takeEvery(actionTypes.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga)
+    ]);
+}
+```
+
+Now, all of the above *takeEvery* functions can be handled simultaneously.
+
 
 
 
