@@ -1,4 +1,4 @@
-import axios from '../../axios-orders';
+// import axios from '../../axios-orders';
 
 import * as actionTypes from './actionTypes';
 
@@ -24,15 +24,20 @@ export const purchaseBurgerStart = () => {
 };
 
 export const purchaseBurger = (orderData, token) => {
-  return (dispatch) => {
-    dispatch(purchaseBurgerStart());
-    axios.post('/orders.json?auth=' + token, orderData)
-      .then((res) => {
-        dispatch(purchaseBurgerSuccess(res.data.name, orderData));
-      })
-      .catch((err) => {
-        dispatch(purchaseBurgerFail(err));
-      });
+  // return (dispatch) => {
+  //   dispatch(purchaseBurgerStart());
+  //   axios.post('/orders.json?auth=' + token, orderData)
+  //     .then((res) => {
+  //       dispatch(purchaseBurgerSuccess(res.data.name, orderData));
+  //     })
+  //     .catch((err) => {
+  //       dispatch(purchaseBurgerFail(err));
+  //     });
+  // };
+  return {
+    type: actionTypes.PURCHASE_BURGER,
+    orderData,
+    token
   };
 };
 
@@ -63,16 +68,21 @@ export const fetchOrdersStart = () => {
 }
 
 export const fetchOrders = (token, userId) => {
-  return (dispatch) => {
-    dispatch(fetchOrdersStart());
-    const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
+  // return (dispatch) => {
+  //   dispatch(fetchOrdersStart());
+  //   const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
 
-    axios.get('./orders.json' + queryParams)
-      .then((res) => {
-        dispatch(fetchOrdersSuccess(res.data));
-      })
-      .catch((err) => {
-        dispatch(fetchOrdersFail(err));
-      });
+  //   axios.get('./orders.json' + queryParams)
+  //     .then((res) => {
+  //       dispatch(fetchOrdersSuccess(res.data));
+  //     })
+  //     .catch((err) => {
+  //       dispatch(fetchOrdersFail(err));
+  //     });
+  // };
+  return {
+    type: actionTypes.FETCH_ORDERS,
+    token,
+    userId
   };
 };
