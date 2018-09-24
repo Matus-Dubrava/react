@@ -1,3 +1,6 @@
+* [handling async operations with redux-thunk](#handling-async-operations-with-redux-thunk)
+* [refactoring with redux-saga](#refactoring-with-redux-saga)
+
 Redux Saga module provides us with middleware capable of handling async operations such as AJAX calls or timers. Instead of placing side effect into our action creator, we move them to so called sagas which are generator functions that are used to handle these side effects. Therefore our action creators can stay pure, unlike in case of using middleware provided by *redux-thunk* module.
 
 In this section, we will look on how to transform code that uses *redux-thunk* middleware into one that uses *redux-saga*. Important note here, we can still use *redux-thunk* with *redux-saga* at the same time.
@@ -117,7 +120,7 @@ export const fetchPosts = () => {
 
 And that is the basic setup using redux-thunk. 
 
-## turning to redux-saga
+## refactoring with redux-saga
 
 Here we are moving the logic from *fetchPosts* action creator function defined in *store/actions/posts.js* to *store/sagas/posts.js* where we define our saga generator function. We can keep the rest of the action creators untouched because the are already pure. 
 
