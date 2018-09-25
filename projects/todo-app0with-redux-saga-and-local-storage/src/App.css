@@ -1,0 +1,13 @@
+.Logo {
+  width: 400px;
+  margin: 4rem auto 2rem auto;
+  background-color: brown;
+  height: 200px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+  border-radius: 1rem;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, .2);
+}

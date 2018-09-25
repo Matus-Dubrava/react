@@ -1,0 +1,40 @@
+.Input {
+    width: 50rem;
+    margin: 1rem auto;
+}
+
+.Input input {
+    width: 100%;
+    height: 3.5rem;
+    border: 1px solid #ddd;
+    border-radius: .5rem;
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+    color: #444;
+    font-size: 1.3rem;
+}
+
+.Input button {
+    width: 100%;
+    cursor: pointer;
+    display: block;
+    padding: .7rem 0;
+    margin: 1rem 0;
+    font-size: inherit;
+    background-color: #22181C;
+    color: #EF626C;
+    text-transform: uppercase;
+    border: none;
+    outline: none;
+    border-radius: .5rem;
+    opacity: .85;
+    transition: .2s all ease-out;
+}
+
+.Input button:hover {
+    transform: scale(1.05);
+}
+
+.Input button:active {
+    opacity: 1;
+}
