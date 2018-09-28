@@ -7,11 +7,12 @@ class SearchBar extends Component {
     
     inputChangedHandler = (event) => {
         this.setState({ term: event.target.value });
+        this.props.inputChanged(event.target.value);
     }
 
     render() {
         return (
-            <div>
+            <div className="search-bar">
                 <input
                     onChange={this.inputChangedHandler}
                     type="text"

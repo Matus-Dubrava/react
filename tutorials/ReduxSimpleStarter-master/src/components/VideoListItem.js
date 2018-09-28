@@ -1,8 +1,9 @@
 import React from 'react';
 
 const videoListItem = (props) => {
-    return (
-        <li className="list-group-item">
+    let video = null;
+    if (props.video) {
+        video =(
             <div className="video-list media">
                 <div className="media-left">
                     <img
@@ -16,6 +17,13 @@ const videoListItem = (props) => {
                     </div>
                 </div>
             </div>
+        );
+    }
+
+    return (
+        <li className="list-group-item"
+            onClick={props.clicked}>
+            {video}
         </li>
     );
 };

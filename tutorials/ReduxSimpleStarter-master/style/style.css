@@ -1,0 +1,47 @@
+.search-bar {
+    margin: 20px;
+    text-align: center;
+}
+
+.search-bar input {
+    width: 75%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    color: #555;
+    padding-left: 15px;
+}
+
+.search-bar input:focus {
+    box-shadow: 0 0 3px dodgerblue;
+    box-sizing: border-box;
+}
+
+.video-item img {
+    max-width: 64px;
+}
+
+.list-group-item {
+    cursor: pointer;
+    border-radius: 10px;
+    margin: 10px;
+    transition: .2s all ease-out;
+}
+
+.list-group-item:hover {
+    background-color: #eee;
+}
+
+.video-detail__details {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.video-detail__title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+}
