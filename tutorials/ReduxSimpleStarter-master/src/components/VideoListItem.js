@@ -7,7 +7,7 @@ const videoListItem = (props) => {
             <div className="video-list media">
                 <div className="media-left">
                     <img
-                        src={props.video.snippet.thumbnails.medium.url} 
+                        src={props.video.snippet.thumbnails.default.url} 
                         className="media-object" />
                 </div>
 
