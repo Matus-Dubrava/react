@@ -1,30 +1,37 @@
 import * as actionTypes from '../actions/actionTypes';
 
+const createSlug = (title) => {
+    return encodeURIComponent(title);
+}
+
 const initialState = {
     books: [
         {
             title: 'The Dark Tower',
             pages: 412,
-            price: 32
+            price: 32,
+            slug: createSlug('The Dark Tower')
         },
         {
             title: 'Javascript: The Good Parts',
             pages: 164,
-            price: 17
+            price: 17,
+            slug: createSlug('Javascript: The Good Parts')
         },
         {
             title: 'Eloquent Ruby',
             pages: 512,
-            price: 42
+            price: 42,
+            slug: createSlug('Eloquent Ruby')
         },
         {
             title: 'Society of Mind',
             pages: 279,
-            price: 36
+            price: 36,
+            slug: createSlug('Society of Mind')
         }
     ],
-    selectedBook: null,
-    addingNewBook: false
+    selectedBook: null
 };
 
 const bookSelect = (state, action) => {
@@ -54,18 +61,13 @@ const bookDelete = (state, action) => {
 };
 
 const bookAdd = (state, action) => {
+    const newBook = action.book;
+    newBook.slug = createSlug(action.book.title);
+
     return {
         ...state, 
         selectedBook: action.book,
-        books: [...state.books, action.book],
-        addingNewBook: false
-    };
-};
-
-const bookAddInit = (state, action) => {
-    return {
-        ...state,
-        addingNewBook: true
+        books: [...state.books, action.book]
     };
 };
 
@@ -75,7 +77,6 @@ const reducer =  (state = initialState, action) => {
         case actionTypes.BOOK_DESELECT: return bookDeselect(state, action);
         case actionTypes.BOOK_DELETE: return bookDelete(state, action);
         case actionTypes.BOOK_ADD: return bookAdd(state, action);
-        case actionTypes.BOOK_ADD_INIT: return bookAddInit(state, action);
         default: return state;
     }
 };

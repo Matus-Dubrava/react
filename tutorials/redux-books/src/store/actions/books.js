@@ -26,9 +26,3 @@ export const bookAdd = (book) => {
         book
     };
 };
-
-export const bookAddInit = () => {
-    return {
-        type: actionTypes.BOOK_ADD_INIT
-    };
-};

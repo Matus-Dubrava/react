@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
 import Books from './containers/Books/Books';
@@ -9,12 +10,15 @@ import BookForm from './containers/BookFrom/BookForm';
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Books />
-        {this.props.addingNewBook 
-          ? <BookForm />
-          : <FullBook />}
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <Books />
+          <Switch>
+            <Route path="/new-book" component={BookForm} />
+            <Route path="/:id" component={FullBook} />
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }

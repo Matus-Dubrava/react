@@ -32,6 +32,7 @@ class BookFrom extends Component {
         });
 
         this.props.onBookAdd(newBook);
+        this.props.history.replace(`/${encodeURIComponent(newBook.title)}`);
     }
 
     render() {
