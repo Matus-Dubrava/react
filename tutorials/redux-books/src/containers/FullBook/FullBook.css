@@ -1,0 +1,40 @@
+.full-book {
+    flex-basis: 70%;
+    flex-grow: 1;
+    border: 1px solid #ddd;
+    margin: 20px;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    display: inline-block;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    font-size: inherit;
+    font-weight: 300;
+    text-transform: uppercase;
+    margin: 20px 10px 0 0;
+    transition: .2s ease-in-out all;
+    cursor: pointer;
+}
+
+.btn--danger {
+    background-color: darkred;
+}
+
+.btn--danger:hover {
+    background-color: rgb(68, 0, 0);
+}
+
+.btn--primary {
+    background-color: dodgerblue;
+}
+
+.btn--primary:hover {
+    background-color: rgb(16, 111, 206);
+}
+
