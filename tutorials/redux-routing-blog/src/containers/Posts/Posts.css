@@ -1,0 +1,18 @@
+.posts__item {
+    list-style: none;
+}
+
+.posts__item {
+    border: 1px solid #ddd;
+    margin: 2rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    min-height: 5rem;
+    transition: .2s all ease-out;
+    box-shadow: 0 .5rem .8rem rgba(0, 0, 0, .05);
+}
+
+.posts__item:hover {
+    box-shadow: 0 .8rem 1rem rgba(0, 0, 0, .08);
+    transform: translateY(-.2rem);
+}
