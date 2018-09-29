@@ -1,3 +1,0 @@
-export {
-    weatherDataFetch
-} from './charts';
