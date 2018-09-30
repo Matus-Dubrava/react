@@ -4,7 +4,7 @@
 
 This guide assumes that we have __Jest__ test runner already configured, by hand, or by using __create-react-app__ which automatically does that for us.
 
-If we want to start using enzyme, first thing to do is to install two packages - __enzyme__ and __enzyme-adapter-react-[version number]__
+If we want to start using enzyme, first thing to do is to install two packages: __enzyme__ and __enzyme-adapter-react-[version number]__
 
 The version number must much the version number of __react__ that we are using in our project. 
 ```
