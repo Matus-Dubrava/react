@@ -3,6 +3,9 @@
 * [beforeEach function](#beforeeach-function)
 * [afterEach function](#aftereach-function)
 * [testing controlled input](#testing-controlled-input)
+* [testing redux connected components](#testing-redux-connected-components)
+* [testing a reducer](#testing-a-reducer)
+* [testing an action creator](#testing-an-action-creator)
 
 ## enzyme setup
 
@@ -304,4 +307,201 @@ it('should have an input that gets emptied once the form is submitted', () => {
 ```
 
 Here we are providing the mock event with __preventDefault__ function because it doesn't have one and if we try to run our test without faking it, the Jest test runner will complain that it can't execute function that doesn't exists. (note that this is an issue only in case of __shallow__ renderer, if we choose to use __mount__ instead, we will not need to provide a fake __preventDefault__ method).
+
+## testing redux connected components
+
+Considering the above comments form, we might want to introduce redux into our application so that once the user submits the form, the comment will be stored inside of the redux state container. For that, we need to use __connect__ function from __react-redux__ module to connect the component to our store. We also need to wrap our root component (technically it doesn't need to be a root component) with a __Provider__ components which is provided by the same module.
+
+The problem that we will have to face is that for react and redux to work correctly together, connected components need to have access to the redux store via __Provider__ component. But since we are testing only a single component in our test file, without rendering the whole DOM, the tested component don't have this access and so our tests will not work. 
+
+To solve this issue, we can create a new functional component, let's call it __Root__, which will be wrapped by __Provider__ component and it will wrap whatever component it receives via __children__ property. We can then export this component and use it inside of our index file to wrap the __App__ component (or however you named your 'root' component) as well as inside of any test file where we are testing a connected component that needs an access to the redux store.
+
+Let's look on an example of root index.js file where we are setting up our react application.
+
+*old index.js*
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, compose, applyMiddleware } from 'redux';
+
+import App from './App';
+import rootReducer from './store/reducers';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware()));
+
+const app = (
+    <Provider store={store}>
+        <App />
+    </Provider>
+);
+
+ReactDOM.render(app, document.getElementById('root'));
+```
+
+Now, let's try to refactor some of the code above into a separate component as we have described and reuse it in both this file and test.js files.
+
+*Root.js*
+```javascript
+import React from 'react';
+import { createStore, compose, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+
+import rootReducer from './store/reducers';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware()));
+
+export default (props) => {
+    return (
+        <Provider store={store}>
+            {props.children}
+        </Provider>
+    );
+};
+```
+
+*new index.js*
+```javascript
+import ReactDOM from 'react-dom';
+import React from 'react';
+
+import App from './components/App';
+import Root from './Root';
+
+const app = (
+    <Root>
+        <App />
+    </Root>
+);
+
+ReactDOM.render(app, document.getElementById('root'));
+```
+
+*our test file*
+```javascript
+import React from 'react';
+import { shallow } from 'enzyme';
+
+import Root from '...';
+import InputBox from '...';
+
+let wrapped = null;
+beforeEach(() => {
+    wrapped = shallow(
+        <Root>
+            <InputBox />
+        </Root>
+    );
+});
+```
+
+After wrapping __InputBox__ component in our test file, it has access to the redux store, therefore are test will start passing again.
+
+## testing a reducer
+Now that we have a clear way of testing a redux connected components, we can start thinking about how to test our reducers. This is actually a pretty simple task since reducers are pure function without any side-effects that are communicating with the external environment only via two input arguments - state and action - and then they return a new state.
+
+So all we need to do is to create an object that represents some action, another object that represents the state and then check, whether the returned state is the one that we expect it to be.
+
+Let's consider a simple reducer that handles only one action type __ADD_COMMENT__ and once the reducer receives action of this type, it simply adds a new entry to its state, where this entry is a comment (a string) carried in a payload of that action.
+
+*commentsReducer.js*
+```javascript
+const initialState = {
+    comments: []
+};
+
+const addComment = (state, action) => {
+    return {
+        ...state,
+        comments: [...state.comments, action.comment]
+    };
+};
+
+const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'ADD_COMMENT': return addComment(state, action);
+        default: return state;
+    }
+};
+
+export default reducer;
+```
+
+We might want to test two things here. First, we can check whether the reducer stores a comment carried by action of the type __ADD_COMMENT__ and then we might consider an action with unknown type and check whether the reducer just ignores it as it should, without throwing any error.
+
+```javascript
+import commentsReducer from '../comments';
+
+let initialState = null;
+beforeEach(() => {
+    initialState = { comments: [] };
+});
+
+it('should handle actions of type "ADD_COMMENT"', () => {
+    const action = {
+        type: 'ADD_COMMENT',
+        comment: 'new comment'
+    };
+
+    const newState = commentsReducer(initialState, action);
+
+    expect(newState.comments).toEqual(['new comment']);
+});
+
+it('should handle actions with unknown type without throwing an error', () => {
+    const action = {
+        type: 'SOME_RANDOM_ACTION_TYPE_123144912102',
+        payload: 'dmidaosd'
+    };
+
+    const newState = commentsReducer(initialState, action);
+
+    expect(newState.comments).toEqual([]);
+});
+```
+
+## testing an action creator
+
+Testing our action creators, as long as they do not include any side-effects is as straightforward as tesing a reducer.
+We just need to pass some argument to it, if any, and then check if the returned action object has a correct type and correct payload, again, if any.
+
+So let's consider an action creator that takes a comment as its argument and returns an action with type __ADD_COMMENT__ and the payload carrying that passed in comment (string).
+
+
+```javascript
+export const addComment = (comment) => {
+    return {
+        type: 'ADD_COMMENT',
+        comment
+    };
+};
+```
+
+And our test file.
+
+```javascript
+import * as actions from '../';
+
+const addComment = actions.addComment;
+
+describe('addComment', () => {
+    const action = addComment('new comment');
+
+    it('should have a correct type', () => {
+        expect(action.type).toEqual('ADD_COMMENT');
+    });
+
+    it('should have a correct payload', () => {
+        expect(action.comment).toEqual('new comment');
+    });
+});
+```
+
+
+
+
 
