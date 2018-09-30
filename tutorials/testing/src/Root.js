@@ -6,11 +6,9 @@ import rootReducer from './store/reducers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware()));
-
 export default (props) => {
     return (
-        <Provider store={store}>
+        <Provider store={createStore(rootReducer, props.initialState, composeEnhancers(applyMiddleware()))}>
             {props.children}
         </Provider>
     );
