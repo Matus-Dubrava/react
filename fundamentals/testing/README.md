@@ -403,9 +403,9 @@ After wrapping __InputBox__ component in our test file, it has access to the red
 ## testing a reducer
 Now that we have a clear way of testing a redux connected components, we can start thinking about how to test our reducers. This is actually a pretty simple task since reducers are pure function without any side-effects that are communicating with the external environment only via two input arguments - state and action - and then they return a new state.
 
-So all we need to do is to create some object that represents some action, we also need to create another object that represents the state and then check, whether the returned state is the one that we expect it to be.
+So all we need to do is to create an object that represents some action, another object that represents the state and then check, whether the returned state is the one that we expect it to be.
 
-Let's consider a simple reducer that handles only one action type __ADD_COMMENT__ and once the reducer receives action of this type, it simply adds a new entry to its state, where this entry is a comment carried in a payload of that action.
+Let's consider a simple reducer that handles only one action type __ADD_COMMENT__ and once the reducer receives action of this type, it simply adds a new entry to its state, where this entry is a comment (a string) carried in a payload of that action.
 
 *commentsReducer.js*
 ```javascript
