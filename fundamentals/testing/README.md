@@ -72,7 +72,7 @@ Inside of our app test file, we will need to import some enzyme renderer, which 
 
 * __static__ - renders components and returns a plain html file 
 * __shallow__ - renders only the passed in components, all the other components inside of this component are replaced by placeholders without them being rendered.
-* __fulldom__ - renders the component and all of it child components
+* __mount__ - renders the component and all of it child components (full DOM renderer)
 
 In our first test, we will make use of __shallow__ renderer.
 
