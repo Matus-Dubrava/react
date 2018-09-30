@@ -308,11 +308,11 @@ Here we are providing the mock event with __preventDefault__ function because it
 
 ## testing redux connected components
 
-Considering the above comments form, we might want to introduce a redux into our application so that once the user submits the form, the comment will be stored inside of our redux container. For that we need to use __connect__ function from __react-redux__ module to connect the component to our store. We also need to wrap our root component (technically it doesn't need to be a root component) with a __Provider__ components which is provided by the same module.
+Considering the above comments form, we might want to introduce redux into our application so that once the user submits the form, the comment will be stored inside of the redux state container. For that, we need to use __connect__ function from __react-redux__ module to connect the component to our store. We also need to wrap our root component (technically it doesn't need to be a root component) with a __Provider__ components which is provided by the same module.
 
-The problem that we will have to face is that for react and redux to work correctly, connected components need to have access to our store via Provider component. But since we are testing only a single component in our test file, we don't have this access, therefore our tests will not work. 
+The problem that we will have to face is that for react and redux to work correctly together, connected components need to have access to the redux store via __Provider__ component. But since we are testing only a single component in our test file, without rendering the whole DOM, the tested component don't have this access and so our tests will not work. 
 
-To solve this issue, we can create a new functional component, let's call it __Root__, which will be wrapped by __Provider__ component and it will wrap whatever __children__ property it receives. We can then export this component and use it inside of our index file to wrap the __App__ component (or however you named your 'root' component) as well as inside of any test file that where we are testing a connected component that needs access to the redux store.
+To solve this issue, we can create a new functional component, let's call it __Root__, which will be wrapped by __Provider__ component and it will wrap whatever component it receives via __children__ property. We can then export this component and use it inside of our index file to wrap the __App__ component (or however you named your 'root' component) as well as inside of any test file where we are testing a connected component that needs an access to the redux store.
 
 Let's look on an example of root index.js file where we are setting up our react application.
 
