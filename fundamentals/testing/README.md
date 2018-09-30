@@ -381,14 +381,14 @@ ReactDOM.render(app, document.getElementById('root'));
 *our test file*
 ```javascript
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import Root from '...';
 import InputBox from '...';
 
 let wrapped = null;
 beforeEach(() => {
-    wrapped = mount(
+    wrapped = shallow(
         <Root>
             <InputBox />
         </Root>
