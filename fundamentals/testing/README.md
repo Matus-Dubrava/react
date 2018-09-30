@@ -1,7 +1,7 @@
 * [enzyme setup](#enzyme-setup)
 * [first test](#first-test)
-* [beforeeach function](#beforeeach-function)
-* [aftereach function](#aftereach-function)
+* [beforeEach function](#beforeeach-function)
+* [afterEach function](#aftereach-function)
 * [testing controlled input](#testing-controlled-input)
 
 ## enzyme setup
@@ -95,7 +95,7 @@ Now we can run ```npm test``` command which will start the Jest test runner and 
 
 __Note__ that we have used method __find__ here to find a specific component but it can be used to find any normal html element as well by passing a valid css selector to it.
 
-## beforeeach function
+## beforeEach function
 
 We may find ourself in a situation where we are repeating the same code over and over in our individual test cases. Example might be taken from the above __App.test.js__ where we are initializing __wrapped__ variable to hold the component rendered by shallow function. While there is no code repetition in that particular example, imagine that we have another component called __SearchBox__ and we want to test whether that __App__ component includes this SearchBox in it as well.
 
@@ -148,7 +148,7 @@ it('should show a single SearchBox component', () => {
 });
 ```
 
-## aftereach function
+## afterEach function
 
 This function serves a similar purpos as the above __beforEach__, it is called after each test case and we can do some clean up here. This is useful in case that we want to reset some values or when we want to unmount some component. In case of __shallow__ renderer, the component doesn't get mounted, but in case of full DOM rendering using __mount__ renderer, the component passed to it actually gets mounted and it is a good idea to unmount it after each test case so that we don't accidentally polute our tests.
 
