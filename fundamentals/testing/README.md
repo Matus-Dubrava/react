@@ -1,5 +1,6 @@
 * [enzyme setup](#enzyme-setup)
 * [first test](#first-test)
+* [beforeEach](#beforeEach)
 
 ## enzyme setup
 
@@ -89,3 +90,57 @@ it('should show a single Comments component', () => {
 ```
 
 Now we can run ```npm test``` command which will start the Jest test runner and then it runs all the test files that it finds. After the tests have been completed, either passing or failing, Jest will keep listening for changes in our project and once it notices a change, it reruns all the tests.
+
+## beforeEach 
+
+We may find ourself in a situation where we are repeating the same code over and over in our individual test cases. Example might be taken from the above __App.test.js__ where we are initializing __wrapped__ variable to hold the component rendered by shallow function. While there is no code repetition in that particular example, imagine that we have another component called __SearchBox__ and we want to test whether that __App__ component includes this SearchBox in it as well.
+
+*App.test.js*
+```javascript
+import React from 'react';
+import { shallow } from 'enzyme';
+
+import App from 'path-to-app-file';
+import Comments from 'path-to-comments-file';
+import SearchBox from 'path-to-searchbox-file';
+
+it('should show a single Comments component', () => {
+    const wrapped = shallow(<App />);
+
+    expect(wrapped.find(Comments).length).toEqual(1);
+});
+
+it('should show a single SearchBox component', () => {
+    const wrapped = shallow(<App />);
+
+    expect(wrapped.find(SearchBox).length).toEqual(1);
+});
+```
+
+In the example above, we can see that we are already duplicating the __wrapped__ variable initialization. And we can have many such test cases, not just 2, where we need this exact code. 
+
+To remove this duplicity from our code, we can make use of __beforeEach__ function that is provided by our test runner and what it does is that it is simply executed before each test case is executed. 
+
+*App.test.js*
+```javascript
+import React from 'react';
+import { shallow } from 'enzyme';
+
+import App from 'path-to-app-file';
+import Comments from 'path-to-comments-file';
+import SearchBox from 'path-to-searchbox-file';
+
+let wrapped = null;
+beforeEach(() => {
+    wrapped = shallow(<App />);    
+});
+
+it('should show a single Comments component', () => {
+    expect(wrapped.find(Comments).length).toEqual(1);
+});
+
+it('should show a single SearchBox component', () => {
+    expect(wrapped.find(SearchBox).length).toEqual(1);
+});
+```
+
