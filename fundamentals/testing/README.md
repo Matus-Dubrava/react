@@ -91,7 +91,7 @@ it('should show a single Comments component', () => {
 
 Now we can run ```npm test``` command which will start the Jest test runner and then it runs all the test files that it finds. After the tests have been completed, either passing or failing, Jest will keep listening for changes in our project and once it notices a change, it reruns all the tests.
 
-__Note__ that we have used method __find__ here to find a specific component but it can be used to find and normal html element as well by passing a valid css selector to it.
+__Note__ that we have used method __find__ here to find a specific component but it can be used to find any normal html element as well by passing a valid css selector to it.
 
 ## beforeEach function
 
