@@ -5,6 +5,7 @@
 * [testing controlled input](#testing-controlled-input)
 * [testing redux connected components](#testing-redux-connected-components)
 * [testing a reducer](#testing-a-reducer)
+* [testing an action creator](#testing-an-action-creator)
 
 ## enzyme setup
 
@@ -462,6 +463,44 @@ it('should handle actions with unknown type without throwing an error', () => {
     expect(newState.comments).toEqual([]);
 });
 ```
+
+## testing an action creator
+
+Testing our action creators, as long as they do not include any side-effects is as straightforward as tesing a reducer.
+We just need to pass some argument to it, if any, and then check if the returned action object has a correct type and correct payload, again, if any.
+
+So let's consider an action creator that takes a comment as its argument and returns an action with type __ADD_COMMENT__ and the payload carrying that passed in comment (string).
+
+
+```javascript
+export const addComment = (comment) => {
+    return {
+        type: 'ADD_COMMENT',
+        comment
+    };
+};
+```
+
+And our test file.
+
+```javascript
+import * as actions from '../';
+
+const addComment = actions.addComment;
+
+describe('addComment', () => {
+    const action = addComment('new comment');
+
+    it('should have a correct type', () => {
+        expect(action.type).toEqual('ADD_COMMENT');
+    });
+
+    it('should have a correct payload', () => {
+        expect(action.comment).toEqual('new comment');
+    });
+});
+```
+
 
 
 
