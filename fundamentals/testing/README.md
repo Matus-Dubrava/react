@@ -1,6 +1,6 @@
 * [enzyme setup](#enzyme-setup)
 * [first test](#first-test)
-* [beforeEach](#beforeEach)
+* [beforeEach function](#beforeEach-function)
 
 ## enzyme setup
 
@@ -91,7 +91,7 @@ it('should show a single Comments component', () => {
 
 Now we can run ```npm test``` command which will start the Jest test runner and then it runs all the test files that it finds. After the tests have been completed, either passing or failing, Jest will keep listening for changes in our project and once it notices a change, it reruns all the tests.
 
-## beforeEach 
+## beforeEach function
 
 We may find ourself in a situation where we are repeating the same code over and over in our individual test cases. Example might be taken from the above __App.test.js__ where we are initializing __wrapped__ variable to hold the component rendered by shallow function. While there is no code repetition in that particular example, imagine that we have another component called __SearchBox__ and we want to test whether that __App__ component includes this SearchBox in it as well.
 
