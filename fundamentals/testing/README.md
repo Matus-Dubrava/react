@@ -4,6 +4,7 @@
 * [afterEach function](#aftereach-function)
 * [testing controlled input](#testing-controlled-input)
 * [testing redux connected components](#testing-redux-connected-components)
+* [testing a reducer](#testing-a-reducer)
 
 ## enzyme setup
 
@@ -398,5 +399,70 @@ beforeEach(() => {
 ```
 
 After wrapping __InputBox__ component in our test file, it has access to the redux store, therefore are test will start passing again.
+
+## testing a reducer
+Now that we have a clear way of testing a redux connected components, we can start thinking about how to test our reducers. This is actually a pretty simple task since reducers are pure function without any side-effects that are communicating with the external environment only via two input arguments - state and action - and then they return a new state.
+
+So all we need to do is to create some object that represents some action, we also need to create another object that represents the state and then check, whether the returned state is the one that we expect it to be.
+
+Let's consider a simple reducer that handles only one action type __ADD_COMMENT__ and once the reducer receives action of this type, it simply adds a new entry to its state, where this entry is a comment carried in a payload of that action.
+
+*commentsReducer.js*
+```javascript
+const initialState = {
+    comments: []
+};
+
+const addComment = (state, action) => {
+    return {
+        ...state,
+        comments: [...state.comments, action.comment]
+    };
+};
+
+const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'ADD_COMMENT': return addComment(state, action);
+        default: return state;
+    }
+};
+
+export default reducer;
+```
+
+We might want to test two things here. First, we can check whether the reducer stores a comment carried by action of the type __ADD_COMMENT__ and then we might consider an action with unknown type and check whether the reducer just ignores it as it should, without throwing any error.
+
+```javascript
+import commentsReducer from '../comments';
+
+let initialState = null;
+beforeEach(() => {
+    initialState = { comments: [] };
+});
+
+it('should handle actions of type "ADD_COMMENT"', () => {
+    const action = {
+        type: 'ADD_COMMENT',
+        comment: 'new comment'
+    };
+
+    const newState = commentsReducer(initialState, action);
+
+    expect(newState.comments).toEqual(['new comment']);
+});
+
+it('should handle actions with unknown type without throwing an error', () => {
+    const action = {
+        type: 'SOME_RANDOM_ACTION_TYPE_123144912102',
+        payload: 'dmidaosd'
+    };
+
+    const newState = commentsReducer(initialState, action);
+
+    expect(newState.comments).toEqual([]);
+});
+```
+
+
 
 
