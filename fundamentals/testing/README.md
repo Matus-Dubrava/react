@@ -316,6 +316,7 @@ To solve this issue, we can create a new functional component, let's call it __R
 
 Let's look on an example of root index.js file where we are setting up our react application.
 
+*old index.js*
 ```javascript
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -361,7 +362,7 @@ export default (props) => {
 };
 ```
 
-*new index.js
+*new index.js*
 ```javascript
 import ReactDOM from 'react-dom';
 import React from 'react';
