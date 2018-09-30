@@ -3,6 +3,7 @@
 * [beforeEach function](#beforeeach-function)
 * [afterEach function](#aftereach-function)
 * [testing controlled input](#testing-controlled-input)
+* [testing redux connected components](#testing-redux-connected-components)
 
 ## enzyme setup
 
@@ -304,4 +305,97 @@ it('should have an input that gets emptied once the form is submitted', () => {
 ```
 
 Here we are providing the mock event with __preventDefault__ function because it doesn't have one and if we try to run our test without faking it, the Jest test runner will complain that it can't execute function that doesn't exists. (note that this is an issue only in case of __shallow__ renderer, if we choose to use __mount__ instead, we will not need to provide a fake __preventDefault__ method).
+
+## testing redux connected components
+
+Considering the above comments form, we might want to introduce a redux into our application so that once the user submits the form, the comment will be stored inside of our redux container. For that we need to use __connect__ function from __react-redux__ module to connect the component to our store. We also need to wrap our root component (technically it doesn't need to be a root component) with a __Provider__ components which is provided by the same module.
+
+The problem that we will have to face is that for react and redux to work correctly, connected components need to have access to our store via Provider component. But since we are testing only a single component in our test file, we don't have this access, therefore our tests will not work. 
+
+To solve this issue, we can create a new functional component, let's call it __Root__, which will be wrapped by __Provider__ component and it will wrap whatever __children__ property it receives. We can then export this component and use it inside of our index file to wrap the __App__ component (or however you named your 'root' component) as well as inside of any test file that where we are testing a connected component that needs access to the redux store.
+
+Let's look on an example of root index.js file where we are setting up our react application.
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, compose, applyMiddleware } from 'redux';
+
+import App from './App';
+import rootReducer from './store/reducers';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware()));
+
+const app = (
+    <Provider store={store}>
+        <App />
+    </Provider>
+);
+
+ReactDOM.render(app, document.getElementById('root'));
+```
+
+Now, let's try to refactor some of the code above into a separate component as we have described and reuse it in both this file and test.js files.
+
+*Root.js*
+```javascript
+import React from 'react';
+import { createStore, compose, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+
+import rootReducer from './store/reducers';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware()));
+
+export default (props) => {
+    return (
+        <Provider store={store}>
+            {props.children}
+        </Provider>
+    );
+};
+```
+
+*new index.js
+```javascript
+import ReactDOM from 'react-dom';
+import React from 'react';
+
+import App from './components/App';
+import Root from './Root';
+
+const app = (
+    <Root>
+        <App />
+    </Root>
+);
+
+ReactDOM.render(app, document.getElementById('root'));
+```
+
+*our test file*
+```javascript
+import React from 'react';
+import { mount } from 'enzyme';
+
+import Root from '...';
+import InputBox from '...';
+
+let wrapped = null;
+beforeEach(() => {
+    wrapped = mount(
+        <Root>
+            <InputBox />
+        </Root>
+    );
+});
+```
+
+After wrapping __InputBox__ component in our test file, it has access to the redux store, therefore are test will start passing again.
+
 
