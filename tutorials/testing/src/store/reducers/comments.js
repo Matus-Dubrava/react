@@ -11,9 +11,21 @@ const addComment = (state, action) => {
     };
 };
 
+const fetchComments = (state, action) => {
+    const comments = action.comments.map((comment) => {
+        return comment.name;
+    });
+
+    return {
+        ...state,
+        comments: [...state.comments, ...comments]
+    };
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.ADD_COMMENT: return addComment(state, action);
+        case actionTypes.FETCH_COMMENTS_SUCCESS: return fetchComments(state, action);
         default: return state;
     }
 };

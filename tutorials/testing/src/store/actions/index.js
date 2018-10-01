@@ -1,3 +1,4 @@
 export {
-    addComment
+    addComment,
+    fetchComments
 } from './comments';

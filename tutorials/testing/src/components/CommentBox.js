@@ -27,22 +27,30 @@ class CommentBox extends Component {
 
     render() {
         return (
-            <form onSubmit={this.formSubmitHandler}>
-                <h4>Add a Commnent</h4>
-                <textarea 
-                    onChange={this.textareaChangeHandler}
-                    value={this.state.comment}/>
-                <div>
-                    <button>Submit Comment</button>
-                </div>
-            </form>
+            <div>
+                <form onSubmit={this.formSubmitHandler}>
+                    <h4>Add a Commnent</h4>
+                    <textarea 
+                        onChange={this.textareaChangeHandler}
+                        value={this.state.comment}/>
+                    <div>
+                        <button>Submit Comment</button>
+                    </div>
+                </form>
+                <button 
+                    className="fetch-comments"
+                    onClick={this.props.onFetchComments}>
+                    Fetch Comments
+                </button>
+            </div>
         );
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAddComment: (comment) => dispatch(actions.addComment(comment))
+        onAddComment: (comment) => dispatch(actions.addComment(comment)),
+        onFetchComments: () => dispatch(actions.fetchComments())
     };
 };
 
