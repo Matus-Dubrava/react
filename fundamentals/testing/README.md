@@ -7,6 +7,7 @@
 * [testing a reducer](#testing-a-reducer)
 * [testing an action creator](#testing-an-action-creator)
 * [passing inital state to redux](#passing-initial-state-to-redux)
+* [testing for the plain text in a component](#testing-for-the-plain-text-in-a-component)
 
 ## enzyme setup
 
@@ -624,6 +625,65 @@ const initialState = {
 ```
 
 And the second one comes from the __comments__ used in our actual reducer file that is used for state initialization for our application. 
+
+
+
+## testing for the plain text in a component
+
+There might be cases when we want to know whether some component contains a specific piece of text. For example, in the previous section, we were testing if the comments are created based on the redux state (one `li` per comment in the redux state) but that doesn't neccessarily mean that those `li`s contain the correct text. So this might be such case.
+
+To do this, we will need to make use of method provided by __enzyme__ called __render__ which we can invoke on our __wrapped__ component. This will return something called a cheerio-wrapped object, where __cheerio__ is a library that allows us to inspect pieces of DOM (very similar to jquery but it can be easily used when we don't have access to full DOM).
+
+Once we have this cheerio-wrapped object, we can then start executing methods on that object, which are provided by cheerio library. One such method is called __text__ which when invoked withour any argument passed to it, it returns the plain text of the component (more precisely, it returns the plain text that is contained within the component).
+
+If we consider the code from the previous section, we can then add expectations like this to it.
+
+```javascript
+expect(wrapped.render().text()).toContain('Comment 1');
+```
+
+The full code of *.text.js* file.
+
+```javascript
+import React from 'react';
+import { mount } from 'enzyme';
+
+import CommentList from '../CommentList';
+import Root from '../../Root';
+
+let wrapped = null;
+
+beforeEach(() => {
+    const initialState = {
+        comments: {
+            comments: ['Comment 1', 'Comment 2']
+        }
+    };
+
+    wrapped = mount(
+        <Root initialState={initialState}>
+            <CommentList />
+        </Root>
+    );
+});
+
+afterEach(() => {
+    wrapped.unmount();
+});
+
+it('should create one LI per comment', () => {
+    expect(wrapped.find('li').length).toEqual(2);
+});
+
+it('should show the text for each comment', () => {
+    expect(wrapped.render().text()).toContain('Comment 1');
+    expect(wrapped.render().text()).toContain('Comment 2');
+});
+```
+
+
+
+
 
 
 
