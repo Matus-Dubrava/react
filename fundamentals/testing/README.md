@@ -6,6 +6,7 @@
 * [testing redux connected components](#testing-redux-connected-components)
 * [testing a reducer](#testing-a-reducer)
 * [testing an action creator](#testing-an-action-creator)
+* [passing inital state to redux](#passing-initial-state-to-redux)
 
 ## enzyme setup
 
@@ -500,6 +501,137 @@ describe('addComment', () => {
     });
 });
 ```
+
+## passing initial state to redux
+
+Suppose that we want to test a component that renders a list of other components or html elements based on some data stored in the redux state. The problem we will have to solve is how to pass some initial state to the redux so that we have some entries to render without affecting our application.
+
+The solution is to pass the initial state as a second argument to the __createStore__ function which we are currently  calling inside of our __Root__ component. Therefore, we need to refactor it a little bit.
+
+*Root.js*
+```javascript
+import React from 'react';
+import { createStore, compose, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+
+import rootReducer from './store/reducers';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+export default (props) => {
+    return (
+        <Provider store={createStore(rootReducer, props.initialState, composeEnhancers(applyMiddleware()))}>
+            {props.children}
+        </Provider>
+    );
+};
+```
+
+With this setup, each time that we are calling __Root__ component, we can choose to pass a prop __initialState__ to it. This comes in handy in case of testing because in case of out application, we can just simply ignore it and nothing will change, but in our test cases, we can pass whatever initial state that we currenly need for our testing purposes.
+
+Imagine that we have a component that renders a list of comments.
+```javascript
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+class commentList extends Component {
+    render() {
+        const comments = this.props.comments.map((comment) => {
+            return (
+                <li key={comment}>
+                    {comment}
+                </li>
+            );
+        });
+        
+        return (
+            <div>
+                <ul>
+                    {comments}
+                </ul>
+            </div>
+        );
+    }
+};
+
+const mapStateToProps = (state) => {
+    return {
+        comments: state.comments.comments
+    };
+};
+
+export default connect(mapStateToProps)(commentList);
+```
+
+In our test file for this component, we can pass an array of comments (strings) to our __Root__ component. After that, the actual testing is quite straighforward.
+
+```javascript
+import React from 'react';
+import { mount } from 'enzyme';
+
+import CommentList from '../CommentList';
+import Root from '../../Root';
+
+let wrapped = null;
+
+beforeEach(() => {
+    const initialState = {
+        comments: {
+            comments: ['Comment 1', 'Comment 2']
+        }
+    };
+
+    wrapped = mount(
+        <Root initialState={initialState}>
+            <CommentList />
+        </Root>
+    );
+});
+
+afterEach(() => {
+    wrapped.unmount();
+});
+
+it('should create one LI per comment', () => {
+    expect(wrapped.find('li').length).toEqual(2);
+});
+```
+
+The only thing that may seem a little bit strange in this code is the structure of the initial state.
+
+```javascript
+const initialState = {
+        comments: {
+            comments: ['Comment 1', 'Comment 2']
+        }
+    };
+```
+
+The fact that we setting up the initial state as an object with one property __comments__ which, itself, has a property called __comments__ comes from the way of how we are structuring our initials state in our reducer combined with a prefix used in __combineReducers__ used for a given reducer.
+
+```javascript
+const rootReducer = combineReducers({
+    comments: commentsReducer
+});
+```
+
+The first __comments__ in our initial state corresponds to the prefix used in the code above.
+
+```javascript
+const initialState = {
+    comments: []
+};
+```
+
+And the second one comes from the __comments__ used in our actual reducer file that is used for state initialization for our application. 
+
+
+
+
+
+
+
+
 
 
 
