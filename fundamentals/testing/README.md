@@ -8,6 +8,7 @@
 * [testing an action creator](#testing-an-action-creator)
 * [passing inital state to redux](#passing-initial-state-to-redux)
 * [testing for the plain text in a component](#testing-for-the-plain-text-in-a-component)
+* [integration testing of async calls with moxios](#integration-testing-of-async-calls-with-moxios)
 
 ## enzyme setup
 
@@ -680,6 +681,157 @@ it('should show the text for each comment', () => {
     expect(wrapped.render().text()).toContain('Comment 2');
 });
 ```
+## integration testing of async calls with moxios
+
+In this section, we will look on how to perform integration tests of async axios calls with the help of __moxios__. Let's imagine that we can populate our comments by hitting some button that will perform an ajax call to some API which then respons with the data (comments).
+
+What we might like to test for is whether the comments are correctly displayed once a user hits the fetch button. This is called integration test because we are not testing a single unit, component, but a more complex interaction of multiple units at the same time.
+
+First, we will need to setup our reducer, action creators and redux so that we can perform this logic and for that we will need some third-party library capable of handling async calls in action creators, since that is the place from which we are going to execute them. __redux-thunk__ is one such library.
+
+So, let's modify our application and create the above mentioned functionality.
+
+In our __Root__ component, we need to apply this new piece of middleware.
+
+```javascript
+import thunk from 'redux-thunk';
+...
+
+export default (props) => {
+    return (
+        <Provider 
+            store={createStore(
+                rootReducer, 
+                props.initialState, 
+                composeEnhancers(applyMiddleware(thunk))
+            )}>
+            {props.children}
+        </Provider>
+    );
+};
+```
+
+Then we need to create new action creators.
+
+```javascript
+export const fetchCommentsSucces = (comments) => {
+    return {
+        type: actionTypes.FETCH_COMMENTS_SUCCESS,
+        comments
+    };
+};
+
+export const fetchComments = () => {
+    return (dispatch) => {
+        axios.get('http://jsonplaceholder.typicode.com/comments')
+            .then((res) => {
+                dispatch(fetchCommentsSucces(res.data));
+            });
+    };
+};
+```
+
+And a reducer capable of processing the __FETCH_COMMENTS_SUCCESS__ actions.
+
+```javascript
+const fetchComments = (state, action) => {
+    const comments = action.comments.map((comment) => {
+        return comment.name;
+    });
+
+    return {
+        ...state,
+        comments: [...state.comments, ...comments]
+    };
+};
+```
+
+Lastly, our button that makes this call on click.
+```javascript
+<button 
+    className="fetch-comments"
+    onClick={this.props.onFetchComments}>
+    Fetch Comments
+</button>
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onFetchComments: () => dispatch(actions.fetchComments())
+    };
+};
+```
+
+
+Now that we have our application code in place, we can start with testing but there are serveral things that we need to be aware of. First thing is that we can't simply make an ajax call from within our test file because Jest doesn't have this capability to access network send an actual http request. Therefore we need to stop this request on its path and return some fake response and this is where __moxios__ comes into play. With moxios, we can intercept the outcoming requests and immediatelly returns some predefined fake response, exactly what we need.
+
+Next thing to be aware of is that ajax calls are inherently asynchronous. This may not sound as a surprise but there is a slight catch when it comes to testing async calls, our testing environment doesn't, by default, wait for any async code to finish, it just runs throught as fast as possible and if there were no errors during the execution, it deems all tests to be successful, even if there are an errors that are produced by async code. Fortunatelly, this can be easily remedied but it is something to be aware of because we might be getting false positives if we are not cautios.
+
+Ok, time to code some tests. Again, the goal here is to test whether the comments component, that is responsible for showing all the comments, shows these newly fetched comments once a user clicks the fetch button.
+
+* importing moxios
+
+```javascript
+import moxios from 'moxios';
+```
+
+* initializing moxios before each test using __install__ method
+
+```javascript
+beforeEach(() => {
+    moxios.install();
+});
+```
+
+* removing moxios after each test with __uninstall__ method
+
+```javascript
+afterEach(() => {
+    moxios.uninstall();
+});
+```
+
+Here is the list of actions that we need to perform to make the test work.
+* find the fetch button and simulate click event on it
+* use moxios __wait__ method to wait for async call to finish
+* use __moxios.requests.mostRecent()__ to trap the ajax call
+* create a fake response object and pass it to __respondWith__ method that will simulate a fake response and returns a promise
+* chain this promise with __then__ method (at this point the response has already arrived and our reducer handled it) and 
+force the component update so that we can see the impact of the request
+* perform some expectation testing
+* call __done__ function that we have passed an argument to the callback passed to __it__ function, so that the Jest test runner knows that we are done with our test.
+
+```javascript
+it('should be able to fetch a list of comments and display then', (done) => {
+    const wrapped = mount(
+        <Root>
+            <App />
+        </Root>
+    );
+
+    wrapped.find('.fetch-comments').simulate('click');
+    wrapped.update();
+    
+    moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+            status: 200,
+            response: [
+                { name: 'fetched 1' },
+                { name: 'fetched 2' }
+            ]
+        }).then(() => {
+            wrapped.update();
+            expect(wrapped.find('li').length).toEqual(2);
+            done();
+        })
+
+    })
+});
+```
+
+
+
+
 
 
 
