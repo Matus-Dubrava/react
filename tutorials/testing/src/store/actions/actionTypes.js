@@ -1,2 +1,4 @@
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const FETCH_COMMENTS_SUCCESS = 'FETCH_COMMENTS_SUCCESS';
+
+export const TOGGLE_AUTH = 'TOGGLE_AUTH';
