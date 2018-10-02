@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../store/actions';
-
 class commentList extends Component {
     render() {
         const comments = this.props.comments.map((comment) => {
@@ -15,6 +13,7 @@ class commentList extends Component {
         
         return (
             <div>
+                <h4>Comment List</h4>
                 <ul>
                     {comments}
                 </ul>

@@ -1,12 +1,15 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import App from './components/App';
 import Root from './Root';
 
 const app = (
     <Root>
-        <App />
+        <BrowserRouter>
+            <Route path="/" component={App} />
+        </BrowserRouter>
     </Root>
 );
 
