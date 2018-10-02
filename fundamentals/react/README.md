@@ -1,4 +1,59 @@
+* [higher order components](#higher-order-components)
 * [lazy loading](#lazy-loading)
+
+## higher order components
+
+Higher order component __HOC__ is technically not a component on its own, instead, it is a function that take component as its argument and return new component that wraps the passed in one. So what is the difference between a normal component and the one that is returned from such function and why should we consider using it? Well, there is no difference. The main idea is that __HOC__ helps us to reuse some pieces of code that we might end up copying throughout our components otherwise. Let's assume a simple example where using one is probably a good idea -- guarding routes from non-authenticated access. There may be a lot of routes that we want to allow access to only when a user is logged in. The problem that we have to solve here to keep our code *dry* is how to reuse the same piece of code (some kind of redirection logic) for each component without copying it over each time. The answer to this question is __HOC__. What we can do is to outsorce that repeatable code into separate file that returns the above mentioned function and reuse it each time we need to redirect unauthenticated users away from some routes.
+
+Here are the steps that we will need to take when building any __HOC__.
+
+* create a function that expects a component as its argument (note that this functiom can take more than just one argument)
+* create a new component (can be either stateless or statefull, but usually it is a statefull component)
+* pass any props that are passed to this wrapper component down to its child component, which is the passed in component
+* return the newly created component from the function
+
+Now that we have a clearer idea of how to implement our own __HOC__, let's try to create the above mentioned guarding component that we will call __requireAuth__. Inside of it, we will use __react-router-dom__ module to programatically navigate anonymous users away by using __history.replace__ method provided by it. We will execute this method in both __componentDidMount__ and __componentDidUpdate__ methods based on information about user's authentication status, which we can name __isAuthenticated__ (a boolean flag), provided by redux.
+
+```javascript
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+const requireAuth = (ChildComponent) => {
+    class ComposedComponent extends Component {
+        componentDidMount() {
+            this.navigateAway();
+        }
+    
+        componentDidUpdate() {
+            this.navigateAway();
+        }
+    
+        navigateAway() {
+            if (!this.props.isAuthenticated) {
+                // history object is provided by BrowserRouter from react-router-dom module
+                this.props.history.replace('/');
+            }
+        }
+
+        render() {
+            // here we are spreading props passed to ComposedComponent
+            // down to the ChildComponent so that we don't lose access to them
+            return <ChildComponent {...this.props} />
+        }
+    }
+
+    const mapStateToProps = (state) => {
+        return {
+            // just a simple boolean flag
+            isAuthenticated: state.auth.isAuthenticated
+        };
+    }
+
+    return connect(mapStateToProps)(ComposedComponent);
+}
+
+export default requireAuth;
+```
 
 ## lazy loading
 
