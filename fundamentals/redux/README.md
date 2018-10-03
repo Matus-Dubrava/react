@@ -311,7 +311,7 @@ for async action creators is provided by __thunk__ middleware that we have impor
 ## adding middleware
 
 In the previous section, we have mentioned that __redux-thunk__ is a middeware but what does that mean? Generally, middleware stands for piece of software or program or a simple function that sits between some two other layers of software.
-In case of __redux__, middleware sits between the place from where the action is dispatch and reducer. Purpose of such functions is to intercept the dispatched action and performs some logic before we let the action continue to another middleware or reducer. 
+In case of __redux__, middleware sits between the place from where the action is dispatched (action is dispatched by store usually from our react components) and the reducer. Purpose of such functions is to intercept the dispatched action and performs some logic before we let the action continue to another middleware or reducer. 
 
 There might be several different middlewares waiting for the action which we usually refer to as a middleware stack and we can programatically create and control this stack of fuctions, their purpose and the order in which they get to handle the action if at all.
 
@@ -390,6 +390,8 @@ export const fetchComments = () => {
     };
 };
 ```
+
+Working example [here](https://github.com/Matus-Dubrava/react/tree/master/fundamentals/redux/pattern-promise-middleware)
 
 ## connecting redux devtools with application
 
