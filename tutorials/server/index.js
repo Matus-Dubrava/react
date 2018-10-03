@@ -4,14 +4,12 @@ const bodyParser = require('body-parser');
 const http = require('http');
 
 const app = express();
-const router = require('./router');
-const User = require('./models'); 
+const authRouter = require('./routes/auth');
 
 // app setup
 app.use(morgan('combined'));
 app.use(bodyParser.json());
-
-app.get('/', router);
+app.use('/', authRouter);
 
 // server setup
 const port = process.env.PORT || 4000;
