@@ -14,6 +14,7 @@
 * [async action creators](#async-action-creators)
 
 * [adding middleware](#adding-middleware)
+  * [handling promises in middleware](#handling-promises-in-middleware)
 * [connecting redux devtools with application](#connecting-redux-devtools-with-application)
 
 * [PATTERN: async data fetching with loading and error state handling](https://github.com/Matus-Dubrava/react/tree/master/fundamentals/redux/pattern-async-data-fetching-with-loading-and-error)
@@ -309,29 +310,90 @@ for async action creators is provided by __thunk__ middleware that we have impor
 
 ## adding middleware
 
-Middleware is a function or a piece of code that sits between two other layers of software. In redux, middleware functions sits between component that dispatches a function and a reducer. If we want to use middleware, we need to import __applyMiddleware__ function from __redux__ and call it with middleware function as its argument in __createStore__ function. 
+In the previous section, we have mentioned that __redux-thunk__ is a middeware but what does that mean? Generally, middleware stands for piece of software or program or a simple function that sits between some two other layers of software.
+In case of __redux__, middleware sits between the place from where the action is dispatch and reducer. Purpose of such functions is to intercept the dispatched action and performs some logic before we let the action continue to another middleware or reducer. 
+
+There might be several different middlewares waiting for the action which we usually refer to as a middleware stack and we can programatically create and control this stack of fuctions, their purpose and the order in which they get to handle the action if at all.
+
+Ok, so why do we need any middleware? There are cases when we need to perform some logic for each action or for some set of actions such as logging, checking whether the state of the redux store was not corrupted, and probably the most common use case is to handle asynchronous actions that need to perform some IO operations such as fetching some data from a server.
+
+Now that we have a clearer vision of what the middleware is and why to use it, let's look on how to actually create one and how to hook it up to our application.
+
+The syntax of middleware function is a little bit overengineered in my opinion and possibly could have been made more clearer. We start by defining a function that will receive one argument - the actual redux store, this functio then returns another function that will again receive a single argument which is a __next__ method that I will explain in a moment and this function again returns, one more time, a function that will receive, again, one argument that is the action that has been dispatched.
 
 ```javascript
-import { createStore, applyMiddleware }
-
-const logger = (store) => {
-    return (next) => {
-        return (action) => {
-            const result = next(action);
-            console.log(store.getState());
-            return result;
-        }
-    }
+const someMiddlewareFunction = (store) => (next) => (action) => {
+    // do some logic here before passing the action down the middleware stack 
+    next(action);
+    
+    // do some logic here after the action has been sent away,
+    // at this point, if the action is not asynchronous that is beeing wait for in further middleware functions,
+    // the redux store is already updated
 }
-
-const store = createStore(reducer, applyMiddleware(logger));
 ```
 
-We can pass multiple middleware functions to __applyMiddleware__ that will then be proccessed one after another once the action is dispatched from component.
+Again, the syntax is a litte awkward here, but it is what it is. What we should probably be concerned with is how we can structure the actual part of the code above that we have in our control. We should always call __next__ method, otherwise our action will be trapped here and reducer will not receive any, which in some cases for a certain type of actions might make a sence, but usually it is a logical error that will break your application.
+
+If we want to modify the action object, we can create a new action and pass it to the call of __next__ method, but there is also another option what we can do here. We may check for some properties on that action, handle them accordingly and instead, modify/create new action and instead of passing the action down the middleware stack, we can call __store.dispatch__ method and pass the action object to it. This will dispatch a new action that is run through the whole middleware stack anew. Why we might want to do such thing will be more clear in a moment when we will look on how to handle async calls inside of action creators. Note that even if we are using the above mentioned dispatch method, we still need to use next somewhere inside of the same function to let the action pass through at some point.
+
+### handling promises in middleware
+
+Now we will look on how we can handle promise object that is a result of some async call inside of a custom middleware.
+These are the steps that we are going to make.
+* setup a middleware function
+* check whether the __payload__ property (we are strictly defining this name here) exists and whether it is a promise or not (more preciselly, whether it is a thenable object - object with *then* method defined on it)
+* if so, then we will unwrap this promise by calling a then method and then we will dispatch the actual data through the whole middleware stack one more time
+* if the above is not the case, then we will simply pass the function down the line (down the middleware stack) by calling the __next__ method 
+* export the function (assuming that we are defining it in a separate file)
+* hook it up to our application by using __applyMiddleware__ function provided by __redux__ module
+
+*async.js*
+```javascript
+export default (store) => (next) => (action) => {
+    console.log('inside of a middleware');
+
+    if (!action.payload || !action.payload.then) {
+        return next(action);
+    }
+
+    action.payload.then((res) => {
+        const newAction = {
+            ...action,
+            payload: res.data
+        };
+
+        return store.dispatch(newAction);
+    })
+};
+```
+
+*index.js*
+```javascript
+import { applyMiddleware, createStore } from 'redux';
+...
+import rootReducer from 'path-to-reducer-file';
+import asyncMiddleware from 'path-to-above-async-file';
+
+const store = createStore(rootReducer, applyMiddleware(asyncMiddleware));
+```
+
+And then we need to use the mentioned __payload__ property to pass the promise object from our action creator, through the middleware and finally to the reducer.
+
+*actionCreator example - using axios*
+```javascript
+export const fetchComments = () => {
+    const response = axios.get('https://jsonplaceholder.typicode.com/comments');
+
+    return {
+        type: actionTypes.FETCH_COMMENTS,
+        payload: response
+    };
+};
+```
 
 ## connecting redux devtools with application
 
-If we want to use redux devtools in our application then:
+If we want to use redux devtools in our application then we need to add the follwing piece of code to our application.
 
 ```javascript
 import { createStore, applyMiddleware, compose } from 'redux';
