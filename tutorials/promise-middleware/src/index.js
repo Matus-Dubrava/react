@@ -7,10 +7,11 @@ import { BrowserRouter } from 'react-router-dom';
 import rootReducer from './store/reducers';
 import App from './containers/App/App';
 import asyncMiddleware from './middlewares/async.js';
+import stateValidatorMiddleware from './middlewares/stateValidator';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(asyncMiddleware)));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(asyncMiddleware, stateValidatorMiddleware)));
 
 const app = (
     <Provider store={store}>
