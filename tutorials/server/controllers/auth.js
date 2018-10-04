@@ -29,3 +29,9 @@ module.exports.signup = async (req, res, next) => {
         return next(err);
     }
 };
+
+module.exports.signin = (req, res) => {
+    // user has already had their email and password auth'd
+    // we just need to give them a token
+    res.json({ token: tokenForUser(req.user) });
+};
