@@ -7,7 +7,9 @@ import * as actions from '../../store/actions';
 
 class Signup extends Component {
     formSubmitHandler = (formProps) => {
-        this.props.onSignup(formProps)
+        this.props.onSignup(formProps, () => {
+            this.props.history.replace('/features');
+        });
     }
 
     render() {
@@ -31,6 +33,9 @@ class Signup extends Component {
                         type="password"
                         name="password" />
                 </fieldset>
+                <div>
+                    {this.props.errorMessage}
+                </div>
                 <button>
                     Sign Up!
                 </button>
@@ -39,13 +44,19 @@ class Signup extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        errorMessage: state.auth.errorMessage
+    };
+};
+
 const mapDispatchToPorps = (dispatch) => {
     return {
-        onSignup: (formProps) => dispatch(actions.signup(formProps))
+        onSignup: (formProps, callback) => dispatch(actions.signup(formProps, callback))
     };
 };
 
 export default compose(
-    connect(null, mapDispatchToPorps),
+    connect(mapStateToProps, mapDispatchToPorps),
     reduxForm({ form: 'signup' })
 )(Signup);
