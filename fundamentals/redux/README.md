@@ -16,6 +16,7 @@
 * [adding middleware](#adding-middleware)
   * [handling promises in middleware](#handling-promises-in-middleware)
 * [connecting redux devtools with application](#connecting-redux-devtools-with-application)
+* [passing initial state to store](#passing-initial-state-to-store)
 
 * [PATTERN: async data fetching with loading and error state handling](https://github.com/Matus-Dubrava/react/tree/master/fundamentals/redux/pattern-async-data-fetching-with-loading-and-error)
 * [PATTERN: redux authentication with firebase](https://github.com/Matus-Dubrava/react/tree/master/fundamentals/redux/pattern-redux-firebase-auth)
@@ -404,6 +405,62 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(reducer, composeEnhancers(applyMiddleware(...middleware)));
 ```
+
+## passing initial state to store
+
+Sometimes it might be useful to start our application with some data already loaded into state. Nice example is when we are using __jwt__ for authentication. We usually store the token and probably some other data as well in the __local storage__ of the browser and keep it there for making authenticated requests in future. If we store the token only in our redux state then every time user reloads a page (reloads the application), all the data from the store are gone. To keep the user logged in we need to retrieve the stored token once the application starts and use it to initialize the redux state.
+
+Suppose that we have slice of state called __auth__ that has two properties (may have some other but we are not concerned with them right now) -- email and token, and assume that we have the two, same-named, entries stored in our __local storage__ under the __authData__ key.
+
+In our root *index.js* file (or wherever we are calling the __createStore__ method), we need to retrieve the that token and email entries.
+
+```javascript
+let authData = { email: '', token: '' };
+if (localStorage.getItem('authData')) {
+    authData = JSON.parse(localStorage.getItem('authData'));
+}
+```
+
+Now, we can pass it to the __createStore__ function as the second argument.
+
+```javascript
+const store = createStore(
+    rootReducer, // our main reducer
+    {
+        auth: {
+            email: authData.email,
+            token: authData.token
+        }
+    },
+    applyMiddleware(...)
+);
+```
+
+We can make it a little bit nicer by creating a function and using it to retrive the data instead. While most probably we won't reuse this function anywhere else, we are giving a much stronger signal about our intent just by properly naming it.
+
+```javascript
+function tryAutoLogin() {
+    let authData = { email: '', token: '' };
+    if (localStorage.getItem('authData')) {
+        authData = JSON.parse(localStorage.getItem('authData'));
+    }
+    return authData;
+}
+
+const store = createStore(
+    rootReducer, 
+    {
+        auth: tryAutoLogin()
+    },
+    applyMiddleware(...)
+);
+```
+
+
+
+
+
+
 
 
 
