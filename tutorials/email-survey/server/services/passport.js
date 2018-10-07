@@ -17,7 +17,8 @@ passport.deserializeUser(async (id, done) => {
 const googleOptions = {
     clientID: keys.google.clientID,
     clientSecret: keys.google.clientSecret,
-    callbackURL: '/auth/google/redirect'
+    callbackURL: '/auth/google/redirect',
+    proxy: true
 };
 
 const googleLogin = new GoogleStrategy(

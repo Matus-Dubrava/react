@@ -1,6 +1,6 @@
 module.exports = {
     google: {
-        clientID: process.end.GOOGLE_CLIENT_ID,
+        clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET
     },
     mongodbURI: process.env.MONGODBURI,
