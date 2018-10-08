@@ -9,6 +9,7 @@ const passport = require('passport');
 require('./models/user');
 require('./services/passport');
 const authRouter = require('./routes/auth');
+const apiRouter = require('./routes/api');
 const app = express();
 const port = process.env.PORT || 5000;
 const keys = require('./config/keys');
@@ -40,6 +41,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRouter);
+app.use('/api', apiRouter);
 
 app.listen(port, () => {
     log(`Servers started listening on port ${port}`);
