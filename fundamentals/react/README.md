@@ -1,5 +1,6 @@
 * [higher order components](#higher-order-components)
 * [lazy loading](#lazy-loading)
+* [CRA redirecting requests via proxy](#cra-redirecting-requests-via-proxy)
 
 ## higher order components
 
@@ -120,3 +121,22 @@ E.g.
 ```
 
 Note that this logic has any meaning only when we are not actually needing the component right away, such as in case of using *Route*.
+
+## CRA redirecting requests via proxy 
+
+We might find ourselfs in a situation where we have one (or more) backand API servers and a different server (such as one created by CRA -- create-react-app) and we want to make some ajax calls to the API server but we still want to have the flexibility of using relative links (relative url paths). The problem here is that when the borwser sees some relative url, it automatically complete it to full url, and for that it uses the domain that we are currenly on (read frontend server).
+
+So we need some way to inform the browser to use some other domain when it sees a specific url pattern. This can be achieved by specifying a proxy inside of our application. For that we need to create a file called __setupProxy.js__ where we will use __http-proxy-middleware__ module (which we need to install).
+
+Example of such file.
+
+```javascript
+const proxy = require('http-proxy-middleware');
+
+module.exports = function(app) {
+    app.use(proxy('/api/*', { target: 'http://localhost:5000' }));
+    app.use(proxy('/auth/google', { target: 'http://localhost:5000' }));
+};
+
+```
+
