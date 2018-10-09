@@ -231,6 +231,10 @@ const mapDispatchToProps = (dispatch) => {
 }
 ```
 
+Overview of data flow in redux.
+
+![redux-flow](https://github.com/Matus-Dubrava/react/blob/master/fundamentals/redux/Untitled%20Diagram.png)
+
 ## removing magic strings
 
 __MAGIC STRING__ -- String that has some special meaning in our application (such as 'INCREMENT' in the case of our example). We should not use magic strings directly because they are easily mistyped and these kinds of errors are pretty hard to track down because we usually don't get any stack trace error.  
