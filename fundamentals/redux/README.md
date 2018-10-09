@@ -231,9 +231,9 @@ const mapDispatchToProps = (dispatch) => {
 }
 ```
 
-Overview of data flow in redux.
+Diagram that shows data flow between react and redux.
 
-![redux-flow](https://github.com/Matus-Dubrava/react/blob/master/fundamentals/redux/Untitled%20Diagram.png)
+![redux-flow](https://github.com/Matus-Dubrava/react/blob/master/fundamentals/redux/redux-flow.png)
 
 ## removing magic strings
 
