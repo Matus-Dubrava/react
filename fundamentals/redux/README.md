@@ -11,10 +11,10 @@
 * [handling action with payload](#handling-action-with-payload)
 * [action creators](#action-creators)
 * [removing magic strings](#removing-magic-strings)
-* [async action creators](#async-action-creators)
 
 * [adding middleware](#adding-middleware)
   * [handling promises in middleware](#handling-promises-in-middleware)
+  * [async action creators with redux thunk](#async-action-creators-with-redux-thunk)
 * [connecting redux devtools with application](#connecting-redux-devtools-with-application)
 * [passing initial state to store](#passing-initial-state-to-store)
 
@@ -277,42 +277,6 @@ const reducer = (state = initialState, action) => {
 export default reducer;
 ```
 
-## async action creators
-
-If we want to update our state based on some async operation like getting data from server via ajax call, then we
-need to import module called __redux-thunk__ which provides us with middleware function that we need to apply to our
-middleware stack.
-
-```javascript
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-
-const store = createStore(reducer, applyMiddleware(thunk));
-```
-
-And then in a file where we have our action creators we can creat an async one like this.
-
-```javascript
-const _saveResults = (results) => {
-    return {
-        type: actionTypes.SAVE_RESULT,
-        result
-    };
-};
-
-export saveResult = (result) => {
-    return (dispatch) => {
-        setTimeout(() => {
-            dispatch(_saveResult(result))
-        }, 1000);
-    };
-};
-```
-
-Here we are exporting only the async action creator because the sync one is used only as a helper. Dispatch argument
-for async action creators is provided by __thunk__ middleware that we have imported and applied in the first step.
-
-
 ## adding middleware
 
 In the previous section, we have mentioned that __redux-thunk__ is a middeware but what does that mean? Generally, middleware stands for piece of software or program or a simple function that sits between some two other layers of software.
@@ -397,6 +361,41 @@ export const fetchComments = () => {
 ```
 
 Working example [here](https://github.com/Matus-Dubrava/react/tree/master/fundamentals/redux/pattern-promise-middleware)
+
+### async action creators with redux thunk
+
+In the previous section, we have seen how to handle promises returned by action creators. This approach has some limitations, such as we need to pass the payload only via __payload__ property (the name doesn't really matter here, but the fact is that we need to exactly specify which property will be a promise so that we can handle accordingly in the middleware). Another shortcomming is that error handling can't be performed inside of the action creator itself because we don't know it there. 
+
+For these reasons, we might want to use something (some module) that let's us to handle async code directly inside of an action creator. There are several options and one of them is __redux-thunk__ module that allows us to use __dispatch__ function directly inside of action creator. If we wire ue the __redux-thunk__ middleware to our application, then we can not only return plain objects from action creators, but also a function that will be able to call the __dispatch__ function.
+
+*actions.js*
+```javascript
+export const fetchUsers = () => dispatch => {
+    axios.get('some-url')
+        .then((res) => {
+            dispatch({ type: FETCH_USERS_SUCCESS, users: res.data });
+        })
+        .catch((err) => {
+            dispatch({ type: FETCH_USERS_FAIL, error: err });
+        });
+}
+```
+As we can see, handling errors is now possble thanks to the fact that we can resolve the promise directly inside of the action creator.
+
+We can also use async/await syntax here to make the code look somewhat more synchronous and easy to read.
+
+```javascript
+export const fetchUser = () => async dispatch => {
+    try {
+        const response = await axios.get('/api/current_user');
+        dispatch({ type: FETCH_USERS_SUCCESS, users: res.data });
+    } catch (err) {
+        dispatch({ type: FETCH_USERS_FAIL, error: err });
+    }
+};
+```
+
+Note that we are not limited to a single action dispatching inside such action creators. For example, we can choose to dispatch some init action immediatelly that will inform redux store that the async action has begun so that we can show some loading text or spinner to our users. And once the async action is done, or in other words, once the promise returned from async call has been resolved, we can then dispatch another action that will inform the redux store that we are done, here is the data and stop that spinner.
 
 ## connecting redux devtools with application
 
