@@ -2,7 +2,6 @@ import 'materialize-css/dist/css/materialize.min.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -20,9 +19,7 @@ const store = createStore(
 
 const app = (
     <Provider store={store}>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+        <App />
     </Provider>
 );
 
