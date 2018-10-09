@@ -8,6 +8,8 @@ router.get(
     })
 );
 
-router.get('/google/redirect', passport.authenticate('google'));
+router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+    res.redirect('/surveys');
+});
 
 module.exports = router;
