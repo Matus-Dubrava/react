@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import * as actions from '../../store/actions';
 
@@ -25,6 +25,7 @@ class Header extends Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <nav>
                 <div className="nav-wrapper">
