@@ -4,9 +4,10 @@ Let's look on a diagram that shows the flow of actions that we need to handle wh
 
 ![react stripe flow diagram](https://github.com/Matus-Dubrava/react/blob/master/fundamentals/react/react-stripe-credit-payments/react-stripe-flow.png)
 
-* [1. client and server setup](#1.-client-and-server-setup)
+* [1 client and server setup](#1-client-and-server-setup)
+* [2 create stripe payment component](#2-create-stripe-payment-component)
 
-# 1. client and server setup
+# 1 client and server setup
 
 Here I would only like to mention some modules that we are going to need to make use of Stripe payments (modules related to stripe).
 
@@ -17,6 +18,58 @@ On the client side, we are goint to use `react-stripe-checkout` module.
 On the server side, we need to install `stripe` module.
 
 `npm install --save stripe` (in the server _package.json_ file)
+
+# 2 create stripe payment component
+
+First, we need to import the stripe component from the module that we have installed on the client.
+
+```javascript
+import StripeCheckout from 'react-stripe-checkout';
+```
+
+Next, thing to do is to is to place the imported component inside of some other component where we want to show it, note that the `StripeComponent` is a button. We also need to provide some properties to this component:
+
+* __name__ - text that will be used as a form header once a user clicks the button
+* __description__ - similar to name property, it will be shown as a text in the form that should give a user better idea for what he/she is paying for
+* __amount__ - the amount of money that we are going to bill the user (by default in US cents, 100 = 1 dolar)
+* __stripeKey__ - public key provided by stripe API
+* __token__ - function that will be executed once the form is submitted, this function automatically receives __token__ object
+
+There are several other properties that we can specify but this is like the minimum reasonable subset of them.
+
+```javascript
+<StripeCheckout
+    name="MaApp"
+    description="get 1 credit for 1$"
+    amount={100}
+    stripeKey={process.env.REACT_APP_STRIPE_KEY}
+    token={token => this.props.onHandleToken(token)}
+>
+    <button className="btn">Add Credits</button>
+</StripeCheckout>
+```
+
+One thing to note here is that we are not directly passing the __stripe__ public key to the `stripeKey` property (although we can if we want to). Instead, we are making use of environment variables provided by __CRA__ (create-react-app). To define some environment variables, we can create two files (there are more options here) - `.env.development` and `.env.production`. We are specifying there two files because we might (and should) use separate keys for development and production.
+
+`.env.production`
+
+```javascript
+REACT_APP_STRIPE_KEY=our-public-key
+```
+
+`.env.development`
+
+```javascript
+REACT_APP_STRIPE_KEY=our-public-key
+```
+
+Important note, we need to prepend every environment variable with `REACT_APP_`, otherwise the will be ignored. CRA also provides us with one more environment variable that is set automatically -- `NODE_ENV` -- and we can use it to differentiate between development, test and production environment in our code. The value of `NODE_ENV` depends on how we run our application.
+
+* __npm test__ - results in `test`
+* __npm start__ - results in `development`
+* __npm build__ - results in `production`
+
+
 
 
 
