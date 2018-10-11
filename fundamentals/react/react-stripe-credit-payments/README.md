@@ -6,6 +6,7 @@ Let's look on a diagram that shows the flow of actions that we need to handle wh
 
 * [1 client and server setup](#1-client-and-server-setup)
 * [2 create stripe payment component](#2-create-stripe-payment-component)
+* [3 4 user interacts with stripe component](#3-4-user-interacts-with-stripe-component)
 
 # 1 client and server setup
 
@@ -69,7 +70,9 @@ Important note, we need to prepend every environment variable with `REACT_APP_`,
 * __npm start__ - results in `development`
 * __npm build__ - results in `production`
 
+# 3 4 user interacts with stripe component
 
+The `StripeCheckout` components generates a button which a user can click on to be presented with a payment form. Once the user fills the required fields, there is a submit button that sends data. Note that stripe API gives an option to work in test mode with fake credit card, but in that case we need to input __4242 4242 4242 4242__ as a credit card number.
 
 
 
