@@ -7,6 +7,7 @@ Let's look on a diagram that shows the flow of actions that we need to handle wh
 * [1 client and server setup](#1-client-and-server-setup)
 * [2 create stripe payment component](#2-create-stripe-payment-component)
 * [3 4 user interacts with stripe component](#3-4-user-interacts-with-stripe-component)
+* [5 form is submited to the stripe service](#5-form-is-submited-to-the-stripe-service)
 
 # 1 client and server setup
 
@@ -73,6 +74,22 @@ Important note, we need to prepend every environment variable with `REACT_APP_`,
 # 3 4 user interacts with stripe component
 
 The `StripeCheckout` components generates a button which a user can click on to be presented with a payment form. Once the user fills the required fields, there is a submit button that sends data. Note that stripe API gives an option to work in test mode with fake credit card, but in that case we need to input __4242 4242 4242 4242__ as a credit card number.
+
+# 5 form is submited to the stripe service
+
+Once the form is submitted, the request is made directly to the stripe service (not to our backend API) so that we don't need to handle security and the sensitive information. The response from stripe service contains some billing information but we don't have access to the submitted credit card number, therefore we will not be storing it anywhere on our backend server.
+
+This response is available as a first argument to the function assigned to `stripeKey` property. All we really need to do here is to send this received token data to our backend API service. Let's make an async action creator that uses __redux-thunk__ and __axios__ to handle this.
+
+```javascript
+export const handleStripeToken = token => async dispatch => {
+    const response = await axios.post('/billing/charge', { token });
+
+    dispatch({ type: FETCH_USER, user: response.data });
+};
+```
+
+`/billing/charge` is some arbitrary url path on our server where we handle the token. Note that we are using relative url path here so that we don't need to worry about it once we push this application to the production where the domain would most likely change (also not that we need to setup a proxy here to reroute this request to our server, otherwise this relative url path would simply not work, at least not in the way we want them to).
 
 
 
