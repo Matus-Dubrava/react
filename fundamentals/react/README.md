@@ -1,7 +1,7 @@
 * [higher order components](#higher-order-components)
 * [lazy loading](#lazy-loading)
 * [CRA redirecting requests via proxy](#cra-redirecting-requests-via-proxy)
-* [handling stripe credit payments](#https://github.com/Matus-Dubrava/react/tree/master/fundamentals/react/react-stripe-credit-payments)
+* [handling stripe credit payments](https://github.com/Matus-Dubrava/react/tree/master/fundamentals/react/react-stripe-credit-payments)
 
 ## higher order components
 
