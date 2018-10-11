@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import * as actions from '../../store/actions';
 import Payments from '../Payments/Payments';
 
 class Header extends Component {
@@ -21,6 +20,13 @@ class Header extends Component {
                     <React.Fragment>
                         <li>
                             <Payments />
+                        </li>
+                        <li
+                            style={{
+                                margin: '0 10px'
+                            }}
+                        >
+                            Credits: {this.props.isAuth.credits}
                         </li>
                         <li>
                             <a href="/api/logout">Logout</a>
