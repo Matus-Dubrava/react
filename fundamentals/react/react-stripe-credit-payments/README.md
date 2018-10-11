@@ -4,5 +4,21 @@ Let's look on a diagram that shows the flow of actions that we need to handle wh
 
 ![react stripe flow diagram](https://github.com/Matus-Dubrava/react/blob/master/fundamentals/react/react-stripe-credit-payments/react-stripe-flow.png)
 
+* [1. client and server setup](#1.-client-and-server-setup)
+
+# 1. client and server setup
+
+Here I would only like to mention some modules that we are going to need to make use of Stripe payments (modules related to stripe).
+
+On the client side, we are goint to use `react-stripe-checkout` module.
+
+`npm install --save react-stripe-checkout` (in the client _package.json_ file)
+
+On the server side, we need to install `stripe` module.
+
+`npm install --save stripe` (in the server _package.json_ file)
+
+
+
 
 
