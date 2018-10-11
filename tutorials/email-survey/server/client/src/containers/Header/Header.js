@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import * as actions from '../../store/actions';
+import Payments from '../Payments/Payments';
 
 class Header extends Component {
     renderContent() {
@@ -17,9 +18,14 @@ class Header extends Component {
                 );
             default:
                 return (
-                    <li>
-                        <a href="/api/logout">Logout</a>
-                    </li>
+                    <React.Fragment>
+                        <li>
+                            <Payments />
+                        </li>
+                        <li>
+                            <a href="/api/logout">Logout</a>
+                        </li>
+                    </React.Fragment>
                 );
         }
     }
