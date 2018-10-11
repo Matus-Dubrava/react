@@ -2,6 +2,7 @@ This guide shows how we can handle basic credit payments with Stripe, React (and
 
 Let's look on a diagram that shows the flow of actions that we need to handle when we want to implement simple Stripe payments. And by simple I mean one-time payments that we are going to exchange for credits that can be used to buy something on our page, whether some product or service.
 
+![react stripe flow diagram](https://github.com/Matus-Dubrava/react/blob/master/fundamentals/react/react-stripe-credit-payments/react-stripe-flow.png)
 
 
 
