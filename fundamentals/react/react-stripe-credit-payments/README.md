@@ -9,7 +9,7 @@ Let's look on a diagram that shows the flow of actions that we need to handle wh
 * [3 4 user interacts with stripe component](#3-4-user-interacts-with-stripe-component)
 * [5 6 7 form is submited to the stripe service](#5-6-7-form-is-submited-to-the-stripe-service)
 * [8 verify that user is logged in](#8-verify-that-user-is-logged-in).
-* [9 10 send another request to stripe service and update the user account](#9-10-send-another-request-to-stripe-service and-update-the-user-account)
+* [9 10 send another request to stripe service and update the user account](#9-10-send-another-request-to-stripe-service-and-update-the-user-account)
 
 # 1 client and server setup
 
