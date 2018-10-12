@@ -8,6 +8,7 @@ Let's look on a diagram that shows the flow of actions that we need to handle wh
 * [2 create stripe payment component](#2-create-stripe-payment-component)
 * [3 4 user interacts with stripe component](#3-4-user-interacts-with-stripe-component)
 * [5 6 7 form is submited to the stripe service](#5-6-7-form-is-submited-to-the-stripe-service)
+* [8 verify that user is logged in](#8-verify-that-user-is-logged-in)
 
 # 1 client and server setup
 
@@ -91,7 +92,29 @@ export const handleStripeToken = token => async dispatch => {
 
 `/billing/charge` is some arbitrary url path on our server where we handle the token. Note that we are using relative url path here so that we don't need to worry about it once we push this application to the production where the domain would most likely change (also not that we need to setup a proxy here to reroute this request to our server, otherwise this relative url path would simply not work, at least not in the way we want them to).
 
+# 8 verify that user is logged in
 
+If we assume that the logged in user is accessible via `req.user` then the verification is quite straightforward. All we need to do is to check whether `req.user` has been set. We can do it either directly inside of the route responsible for handling the payment or we can outsource this logic to a separate middleware function that we can later reuse if we need to protect other routes which is obviously the preffered way.
+
+_requireLogin.js_
+
+```javascript
+module.exports = (req, res, next) => {
+    if (!req.user) {
+        return res.json({ error: 'You must be logged in!' });
+    }
+
+    return next();
+};
+```
+
+And then we can protect the billing route by passing this function as a second argument (it doesn't neccessarily need to be the second argument, but it needs to be passed in before the actual billing handler function) to that route handler.
+
+```javascript
+router.post('/charge', requireLogin, async (req, res) => {
+    // handle the payment here
+});
+```
 
 
 
