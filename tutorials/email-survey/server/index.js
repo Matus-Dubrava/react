@@ -12,6 +12,7 @@ require('./services/passport');
 
 const authRouter = require('./routes/auth');
 const apiRouter = require('./routes/api');
+const surveyRouter = require('./routes/survey');
 const app = express();
 const port = process.env.PORT || 5000;
 const keys = require('./config/keys');
@@ -44,6 +45,7 @@ app.use(passport.session());
 
 app.use('/auth', authRouter);
 app.use('/api', apiRouter);
+app.use('/api', surveyRouter);
 
 // run this code only in production environment
 if (process.env.NODE_ENV === 'production') {
