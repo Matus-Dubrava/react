@@ -11,6 +11,7 @@ Let's look on a diagram that shows the flow of actions that we need to handle wh
 * [8 verify that user is logged in](#8-verify-that-user-is-logged-in).
 * [9 10 send another request to stripe service and update the user account](#9-10-send-another-request-to-stripe-service-and-update-the-user-account)
 * [11 updating the UI](#11-updating-the-UI)
+* [working example](https://github.com/Matus-Dubrava/react/tree/master/fundamentals/react/react-stripe-credit-payments/react-stripe-payments)
 
 
 # 1 client and server setup
