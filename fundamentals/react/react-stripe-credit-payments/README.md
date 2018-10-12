@@ -8,7 +8,8 @@ Let's look on a diagram that shows the flow of actions that we need to handle wh
 * [2 create stripe payment component](#2-create-stripe-payment-component)
 * [3 4 user interacts with stripe component](#3-4-user-interacts-with-stripe-component)
 * [5 6 7 form is submited to the stripe service](#5-6-7-form-is-submited-to-the-stripe-service)
-* [8 verify that user is logged in](#8-verify-that-user-is-logged-in)
+* [8 verify that user is logged in](#8-verify-that-user-is-logged-in).
+* [9 10 send another request to stripe service and update the user account](#9-10-send-another-request-to-stripe-service and-update-the-user-account)
 
 # 1 client and server setup
 
@@ -115,6 +116,69 @@ router.post('/charge', requireLogin, async (req, res) => {
     // handle the payment here
 });
 ```
+
+# 9 10 send another request to stripe service and update the user account
+
+We are going to continue building the function that we have started in a previous step. To create the request to stripe service, we need to call `stripe.charges.create` function which takes a configuration object that is very similar to the onte that we have created on our client side.
+
+```javascript
+const charge = await stripe.charges.create({
+    amount: 500,
+    currency: 'usd',
+    description: '5$ for 5 credit',
+    source: req.body.token.id
+});
+```
+
+All of these properties are kind of self explanatory, maybe except the _source_ which requieres the token id that we have receuved when we did the request on the client and then sent this object to our server. Here we are using __body-parser__ module which parses any post request comming to our server and attaches data sent in the body of the requrest to `req.body` variable.
+
+Once this request is complete, we want to update the user's account with appropriate amount of credits. Again, since we are handling this payment only if the user is logged in, we can access the current user via `req.user`. Here we assume that the user has a property called credit that represents the amount of credits that the user has.
+
+```javascript
+req.user.credit += 5;
+const updatedUser = await req.user.save();
+res.json(updatedUser);
+```
+
+The whole route handler therefore looks like this.
+
+```javascript
+router.post('/charge', requireLogin, async (req, res) => {
+    const charge = await stripe.charges.create({
+        amount: 500,
+        currency: 'usd',
+        description: '5$ for 5 credit',
+        source: req.body.token.id
+    });
+
+    req.user.credit += 5;
+    const updatedUser = await req.user.save();
+    res.json(updatedUser);
+});
+```
+
+For reference, user model defined via __mongoose__ that is compatible with the above code may look like this.
+
+```javascript
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
+const userSchema = new Schema({
+    googleId: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    credit: {
+        type: Number,
+        default: 0
+    }
+});
+
+mongoose.model('users', userSchema);
+```
+
+
 
 
 
