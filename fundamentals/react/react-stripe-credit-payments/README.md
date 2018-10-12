@@ -10,6 +10,7 @@ Let's look on a diagram that shows the flow of actions that we need to handle wh
 * [5 6 7 form is submited to the stripe service](#5-6-7-form-is-submited-to-the-stripe-service)
 * [8 verify that user is logged in](#8-verify-that-user-is-logged-in).
 * [9 10 send another request to stripe service and update the user account](#9-10-send-another-request-to-stripe-service-and-update-the-user-account)
+* [11 updating the UI](#11 updating the UI)
 
 # 1 client and server setup
 
@@ -177,6 +178,51 @@ const userSchema = new Schema({
 
 mongoose.model('users', userSchema);
 ```
+
+# 11 updating the UI
+
+This step, if we have correctly hooked up our reducer with the action creator that we have used for sending the request from the client to stripe service, is kind of solved already. This is just an example of how we can handle the state with two properties `auth`,representing the currently logged in user and `error`, which is filled if there was any error during the request.
+
+```javascript
+import { FETCH_USER, FETCH_USER_FAIL } from '../actions/types';
+
+const INITIAL_STATE = {
+    auth: null,
+    error: ''
+};
+
+const fetchUser = (state, action) => {
+    return {
+        ...state,
+        auth: action.user,
+        error: ''
+    };
+};
+
+const fetchUserFail = (state, action) => {
+    return {
+        ...state,
+        error: action.error
+    };
+};
+
+export default (state = INITIAL_STATE, action) => {
+    switch (action.type) {
+        case FETCH_USER:
+            return fetchUser(state, action);
+        case FETCH_USER_FAIL:
+            return fetchUserFail(state, action);
+        default:
+            return state;
+    }
+};
+```
+
+If there is any react component connected to this state, once the request is done, it will automatically be re-rendered with the new user object, which also contains the amount of credits. 
+
+Note that the chosen name - `fetchUser` - might not seem to be the most appropriate for this kind of action but there is a good reason for it. This way, we can reuse the same logic for testing whether the user is logged in as well as for updating the user (more preciselly the user's credits) once the payment is successful.
+
+
 
 
 
