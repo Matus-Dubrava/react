@@ -7,7 +7,9 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 
 require('./models/user');
+require('./models/survey');
 require('./services/passport');
+
 const authRouter = require('./routes/auth');
 const apiRouter = require('./routes/api');
 const app = express();
@@ -53,9 +55,7 @@ if (process.env.NODE_ENV === 'production') {
     // it doesn't recognize the route
     const path = require('path');
     app.get('*', (req, res) => {
-        res.sendFile(
-            path.resolve(__dirname, 'client', 'build', 'index.html')
-        );
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
 }
 
