@@ -43,6 +43,22 @@ app.use(passport.session());
 app.use('/auth', authRouter);
 app.use('/api', apiRouter);
 
+// run this code only in production environment
+if (process.env.NODE_ENV === 'production') {
+    // Express will serve up production assets
+    // like main.js file, or main.css file
+    app.use(express.static('client/build'));
+
+    // Express will serve up the index.html if
+    // it doesn't recognize the route
+    const path = require('path');
+    app.get('*', (req, res) => {
+        res.sendFile(
+            path.resolve(__dirname__, 'client', 'build', 'index.html')
+        );
+    });
+}
+
 app.listen(port, () => {
     log(`Servers started listening on port ${port}`);
 });
