@@ -21,7 +21,10 @@ router.post('/surveys', requireLogin, requireCredits, async (req, res) => {
         dateSent: Date.now()
     });
 
+    // create a new mailer instance with appropriate arguments
+    // and send it to sendgrid
     const mailer = new Mailer(survey, surveyTemplate(survey));
+    mailer.send();
 });
 
 module.exports = router;
