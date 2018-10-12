@@ -180,7 +180,7 @@ const userSchema = new Schema({
 mongoose.model('users', userSchema);
 ```
 
-# 11 updating the UI
+# 11 updating the UI 
 
 This step, if we have correctly hooked up our reducer with the action creator that we have used for sending the request from the client to stripe service, is kind of solved already. This is just an example of how we can handle the state with two properties `auth`,representing the currently logged in user and `error`, which is filled if there was any error during the request.
 
