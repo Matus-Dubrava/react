@@ -3,12 +3,11 @@ import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import SurveyNew from '../surveys/SurveyNew';
+import Dashboard from '../../containers/Dashboard/Dashboard';
 import Header from '../../containers/Header/Header';
 import Landing from '../../containers/Landing/Landing';
 import * as actions from '../../store/actions';
-
-const Dashboard = withRouter(() => <h2>Dashboard</h2>);
-const SurveyNew = () => <h2>SurveyNew</h2>;
 
 class App extends Component {
     componentDidMount() {
