@@ -59,7 +59,6 @@ function validate(values) {
     const errors = {};
 
     errors.emails = validateEmails(values.emails || '');
-    console.log(validateEmails(values.emails || ''));
 
     _.each(FIELDS, ({ name }) => {
         if (!values[name]) {
