@@ -1,10 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import formFields from './formFields';
 import * as actions from '../../store/actions';
 
-const SurveyFormReview = ({ onCancel, formValues, onSubmitSurvey }) => {
+const SurveyFormReview = ({
+    onCancel,
+    formValues,
+    onSubmitSurvey,
+    history
+}) => {
     const reviewFields = formFields.map(({ name, label }) => {
         return (
             <div key={name}>
@@ -25,7 +31,11 @@ const SurveyFormReview = ({ onCancel, formValues, onSubmitSurvey }) => {
                 Back
             </button>
             <button
-                onClick={() => onSubmitSurvey(formValues)}
+                onClick={() =>
+                    onSubmitSurvey(formValues, () => {
+                        history.replace('/surveys');
+                    })
+                }
                 className="btn-flat right green white-text"
             >
                 Send Survey
@@ -43,11 +53,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToActions = dispatch => {
     return {
-        onSubmitSurvey: values => dispatch(actions.submitSurvey(values))
+        onSubmitSurvey: (values, callback) =>
+            dispatch(actions.submitSurvey(values, callback))
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToActions
-)(SurveyFormReview);
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToActions
+    )(SurveyFormReview)
+);
