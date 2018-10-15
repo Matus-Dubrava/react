@@ -1,0 +1,10 @@
+.form-modal {
+    width: 60%;
+    padding: 30px 30px 50px 30px;
+    margin: 20px auto;
+    background: white;
+    z-index: 1000;
+    position: relative;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+}
