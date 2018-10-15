@@ -12,9 +12,9 @@
 -   [action creators](#action-creators)
 -   [removing magic strings](#removing-magic-strings)
 
-*   [adding middleware](#adding-middleware)
-  * [handling promises in middleware](#handling-promises-in-middleware)
-  * [async action creators with redux thunk](#async-action-creators-with-redux-thunk)
+-   [adding middleware](#adding-middleware)
+  - [handling promises in middleware](#handling-promises-in-middleware)
+  - [async action creators with redux thunk](#async-action-creators-with-redux-thunk)
 -   [connecting redux devtools with application](#connecting-redux-devtools-with-application)
 -   [passing initial state to store](#passing-initial-state-to-store)
 
