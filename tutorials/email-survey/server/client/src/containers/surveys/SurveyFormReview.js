@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import formFields from './formFields';
+import * as actions from '../../store/actions';
 
-const SurveyFormReview = ({ onCancel, formValues }) => {
-    const reviewFields = formFields.map(field => {
+const SurveyFormReview = ({ onCancel, formValues, onSubmitSurvey }) => {
+    const reviewFields = formFields.map(({ name, label }) => {
         return (
-            <div key={field.name}>
-                <label>{field.label}</label>
-                <div>{formValues[field.name]}</div>
+            <div key={name}>
+                <label>{label}</label>
+                <div>{formValues[name]}</div>
             </div>
         );
     });
@@ -17,8 +18,18 @@ const SurveyFormReview = ({ onCancel, formValues }) => {
         <div>
             <h5>Please confirm entries</h5>
             {reviewFields}
-            <button onClick={onCancel} className="btn-flat yellow darken-3">
+            <button
+                onClick={onCancel}
+                className="btn-flat darken-3 yellow white-text"
+            >
                 Back
+            </button>
+            <button
+                onClick={() => onSubmitSurvey(formValues)}
+                className="btn-flat right green white-text"
+            >
+                Send Survey
+                <i className="material-icons right">email</i>
             </button>
         </div>
     );
@@ -30,4 +41,13 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(SurveyFormReview);
+const mapDispatchToActions = dispatch => {
+    return {
+        onSubmitSurvey: values => dispatch(actions.submitSurvey(values))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToActions
+)(SurveyFormReview);
