@@ -17,6 +17,7 @@ const authRouter = require('./routes/auth');
 
 mongoose.connect(
     keys.mongodbURI,
+    { useNewUrlParser: true },
     () => {
         log(`Connection to database established.`);
     }
