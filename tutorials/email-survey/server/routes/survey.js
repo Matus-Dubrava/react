@@ -10,6 +10,18 @@ const Survey = mongoose.model('surveys');
 const Mailer = require('../services/Mailer');
 const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
+router.get('/surveys', requireLogin, async (req, res) => {
+    try {
+        const surveys = await Survey.find({ _user: req.user.id }).select({
+            recipients: false
+        });
+
+        res.json(surveys);
+    } catch (err) {
+        res.status(500).json('500 Error. Service currenly unavailable.');
+    }
+});
+
 router.post('/surveys', requireLogin, requireCredits, async (req, res) => {
     const { title, subject, body, recipients } = req.body;
 
